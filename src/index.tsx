@@ -1,3 +1,4 @@
+import { NextUIProvider } from '@nextui-org/react';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
@@ -7,7 +8,11 @@ if (rootEl) {
   const root = ReactDOM.createRoot(rootEl);
   root.render(
     <React.StrictMode>
-      <App />
+      <NextUIProvider>
+        <main className="dark purple-dark text-foreground bg-background">
+          <App />
+        </main>
+      </NextUIProvider>
     </React.StrictMode>,
   );
 }

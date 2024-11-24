@@ -4,7 +4,7 @@ import { PixelMap } from './components/PixelMap';
 const App = () => {
   return (
     <div className="content">
-      <h1>Pixel World</h1>
+      <h1 className="text-4xl mt-2">Pixel World</h1>
       <PixelMap />
     </div>
   );
