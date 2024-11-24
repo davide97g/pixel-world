@@ -1,7 +1,11 @@
 import { Select, SelectItem } from '@nextui-org/react';
+import { DropletIcon, PaintbrushIcon, PipetteIcon } from 'lucide-react';
 import { useState } from 'react';
+import { useCreator } from '../context/CreatorProvider';
 import { Pixel } from './Pixel/Pixel';
 import type { IPixel } from './models';
+
+const PIXEL_COUNT = 1000;
 
 const colors = [
   'red',
@@ -24,13 +28,14 @@ const freePixels = [
 const generateRandomColor = () =>
   colors[Math.floor(Math.random() * colors.length)];
 
-const mockPixels: IPixel[] = Array.from({ length: 100 }, (_, i) => ({
+const mockPixels: IPixel[] = Array.from({ length: PIXEL_COUNT }, (_, i) => ({
   id: `pixel-${i + 1}`,
   color: generateRandomColor(),
   free: freePixels.includes(i + 1),
 }));
 
 export function PixelMap() {
+  const { mode } = useCreator();
   const [pixels, setPixels] = useState<IPixel[]>(mockPixels);
   const [color, setColor] = useState<string>('');
 
@@ -51,7 +56,13 @@ export function PixelMap() {
   };
 
   return (
-    <div className="max-w-[320px] m-auto dark flex flex-col gap-4">
+    <div className="max-w-[640px] m-auto dark flex flex-col gap-4 relative">
+      <div className="flex items-center justify-center">
+        {mode === 'delete' && <DropletIcon />}
+        {mode === 'edit' && <PipetteIcon />}
+        {mode === 'create' && <PaintbrushIcon />}
+        <p className="ml-2 capitalize">{mode}</p>
+      </div>
       <Select
         label="Select a color"
         className="max-w-xs dark"

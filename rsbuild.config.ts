@@ -5,5 +5,8 @@ export default defineConfig({
   html: {
     title: 'Pixel World',
   },
+  server: {
+    port: 8080,
+  },
   plugins: [pluginReact()],
 });
