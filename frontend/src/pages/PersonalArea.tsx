@@ -22,20 +22,7 @@ export default function PersonalArea() {
   }, [isLogged, navigate]);
 
   const handleLogout = async () => {
-    AUTH.logout().then(() => {
-      localStorage.removeItem('sid');
-      localStorage.removeItem('gen');
-      localStorage.removeItem('guessFeedbackHistory');
-      navigate('/');
-    });
-  };
-
-  const add10BestGuesses = () => {
-    if (user)
-      window.open(
-        `https://buy.stripe.com/test_fZe9ACacI7wT39CcMN?client_reference_id=${user.id}`,
-        '_blank',
-      );
+    AUTH.logout().then(() => navigate('/'));
   };
 
   return (
@@ -89,23 +76,15 @@ export default function PersonalArea() {
           className="max-w-xs"
         />
         <div className="flex flex-row gap-2 sm:gap-4">
-          <Tooltip color="foreground" content="Number of best guess remaining">
+          <Tooltip color="foreground" content="This is the your custom color">
             <Chip
               variant="flat"
               color="secondary"
               className="cursor-pointer text-xs sm:text-sm"
             >
-              Best Guesses: {user?.numberOfBestGuesses ?? 0}
+              Your color: {user?.color.name}
             </Chip>
           </Tooltip>
-          <Button
-            radius="full"
-            size="sm"
-            className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
-            onClick={add10BestGuesses}
-          >
-            Add 10 Best Guesses
-          </Button>
         </div>
 
         <Divider className="my-2" />
