@@ -4,7 +4,6 @@ export function Pixel({
   onClick,
 }: Readonly<{ color: string; free: boolean; onClick: () => void }>) {
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
       style={{
         width: '2rem',

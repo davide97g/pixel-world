@@ -1,21 +1,17 @@
 import { NextUIProvider } from '@nextui-org/react';
-import React from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { startWebSocketServer } from './services/ws';
 
 startWebSocketServer();
 
-const rootEl = document.getElementById('root');
-if (rootEl) {
-  const root = ReactDOM.createRoot(rootEl);
-  root.render(
-    <React.StrictMode>
-      <NextUIProvider>
-        <main className="dark purple-dark text-foreground bg-background">
-          <App />
-        </main>
-      </NextUIProvider>
-    </React.StrictMode>,
-  );
-}
+const queryClient = new QueryClient();
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <NextUIProvider>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </NextUIProvider>,
+);
