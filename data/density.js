@@ -1,27 +1,7 @@
 import { readFileSync, writeFileSync } from "fs";
 
-const PRIMARY_COLORS = {
-  red: { hex: "#FF0000", rgb: [255, 0, 0] },
-  green: { hex: "#00FF00", rgb: [0, 255, 0] },
-  blue: { hex: "#0000FF", rgb: [0, 0, 255] },
-  yellow: { hex: "#FFFF00", rgb: [255, 255, 0] },
-  cyan: { hex: "#00FFFF", rgb: [0, 255, 255] },
-  magenta: { hex: "#FF00FF", rgb: [255, 0, 255] },
-  white: {
-    hex: "#FFFFFF",
-    rgb: [255, 255, 255],
-  },
-  black: {
-    hex: "#000000",
-    rgb: [0, 0, 0],
-  },
-  // orange: { hex: "#FFA500", rgb: [255, 165, 0] },
-  // purple: { hex: "#800080", rgb: [128, 0, 128] },
-  // pink: { hex: "#FFC0CB", rgb: [255, 192, 203] },
-  // teal: { hex: "#008080", rgb: [0, 128, 128] },
-  // lavender: { hex: "#E6E6FA", rgb: [230, 230, 250] },
-};
-
+const primaryColorsJson = readFileSync("./input/primary-colors.json", "utf8");
+const PRIMARY_COLORS = JSON.parse(primaryColorsJson);
 // sensitivity to color difference
 const EPSILON = 0;
 

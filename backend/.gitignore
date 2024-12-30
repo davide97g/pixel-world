@@ -3,3 +3,7 @@ secrets
 
 node_modules
 dist
+
+src/data/*
+!src/data/.gitkeep
+!src/data/index.ts

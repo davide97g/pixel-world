@@ -1,11 +1,8 @@
 import { IColor } from "../../../../types/color.types";
+import { pantoneColors } from "../../data";
 
-export const generateColorForNewUser = async (uid: string) => {
-  const color: IColor = {
-    hex: "#000000",
-    rgb: [0, 0, 0],
-    density: 0,
-    name: "Black",
-  };
+export const generateColorForNewUser = async () => {
+  const colorIndex = Math.random() * pantoneColors.length;
+  const color = pantoneColors[Math.floor(colorIndex)] as IColor;
   return color;
 };
