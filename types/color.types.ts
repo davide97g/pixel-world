@@ -1,5 +1,5 @@
 export interface IColor {
-  hex: string;
+  value: string;
   rgb: [number, number, number];
   name?: string;
   hsl?: [number, number, number];
