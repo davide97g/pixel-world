@@ -4,4 +4,5 @@ export interface IColor {
   name?: string;
   hsl?: [number, number, number];
   density: number;
+  isLight: boolean;
 }

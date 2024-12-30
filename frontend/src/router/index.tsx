@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 const Create = lazy(() => import('../pages/Create'));
+const Color = lazy(() => import('../pages/Color'));
 const Login = lazy(() => import('../pages/Login'));
 const PersonalArea = lazy(() => import('../pages/PersonalArea'));
 
@@ -28,6 +29,14 @@ export const router = createBrowserRouter([
     element: (
       <Suspense>
         <PersonalArea />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/color/:color',
+    element: (
+      <Suspense>
+        <Color />
       </Suspense>
     ),
   },

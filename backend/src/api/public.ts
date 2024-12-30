@@ -1,7 +1,7 @@
 import { type Express, type Request, type Response } from "express";
 
 import { version } from "../../package.json";
-import { generateColorForNewUser } from "../features/color";
+import { generateColorForNewUser, getColorByHex } from "../features/color";
 import { updateUser } from "../features/user/updateUser";
 import { getUserInfoFromToken } from "../middleware/utils";
 
@@ -17,6 +17,16 @@ export const addPublicRoutes = (app: Express) => {
     await updateUser(user.uid, { color });
     res.send({
       message: `Registered ${user.uid} with color: ${color.name}`,
+      color,
+    });
+  });
+
+  app.get("/color/:hex", (req: Request, res: Response) => {
+    const hex = req.params.hex;
+    if (!hex) return res.status(400).send({ message: "Hex is required" });
+    const color = getColorByHex(`#${hex}`);
+    if (!color) return res.status(404).send({ message: "Color not found" });
+    res.send({
       color,
     });
   });

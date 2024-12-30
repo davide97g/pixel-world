@@ -13,6 +13,25 @@ export const API = {
         return { version: 'unknown' };
       });
   },
+  getColorByHex: async (hex: string) => {
+    return fetch(`${BACKEND_URL}/color/${hex}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          const resJson = await res.json();
+          return resJson as { color: IColor };
+        } else return { color: { name: 'Color not found' } };
+      })
+      .then((res) => res.color)
+      .catch((err) => {
+        console.info(err);
+        return undefined;
+      });
+  },
   generateCustomColor: async () => {
     const idToken = await auth.currentUser?.getIdToken().catch((err) => {
       console.info(err);

@@ -29,7 +29,6 @@ export default function PersonalArea() {
     <div className="w-full sm:w-6/12 flex flex-col justify-center items-center gap-4 px-10">
       {isPending && <Loader />}
       <div className="pt-28 md:pt-20 flex flex-row items-center">
-        <img src="./logo.png" alt="logo" height={45} width={45} />
         <h1 className="text-2xl">Personal Area</h1>
       </div>
       <Button
@@ -60,7 +59,7 @@ export default function PersonalArea() {
         <Input
           isReadOnly
           type="email"
-          label="Email"
+          label="Public Name"
           color="secondary"
           variant="bordered"
           value={user?.displayName}
@@ -76,14 +75,25 @@ export default function PersonalArea() {
           className="max-w-xs"
         />
         <div className="flex flex-row gap-2 sm:gap-4">
+          <Chip
+            variant="flat"
+            color="secondary"
+            className="cursor-pointer text-xs sm:text-sm"
+            style={{
+              backgroundColor: user?.color.value,
+              color: user?.color.isLight ? 'black' : 'white',
+            }}
+          >
+            Your color: {user?.color.name}
+          </Chip>
           <Tooltip color="foreground" content="This is the your custom color">
-            <Chip
-              variant="flat"
-              color="secondary"
-              className="cursor-pointer text-xs sm:text-sm"
-            >
-              Your color: {user?.color.name}
-            </Chip>
+            <Button
+              className="h-40 w-40 rounded-md "
+              style={{ backgroundColor: user?.color.value }}
+              onClick={() =>
+                navigate(`/color/${user?.color.value.replace('#', '')}`)
+              }
+            />
           </Tooltip>
         </div>
 

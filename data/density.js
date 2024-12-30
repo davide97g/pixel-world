@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync } from "fs";
+import { hexToHSL } from "./utils.js";
 
 const primaryColorsJson = readFileSync("./input/primary-colors.json", "utf8");
 const PRIMARY_COLORS = JSON.parse(primaryColorsJson);
@@ -91,11 +92,25 @@ const pantoneDensities = pantone.map((pantoneColor) => {
   const { density, obtainedColor, perfectMatch } = findColorDensity(
     pantoneColor.rgb
   );
-  return { ...pantoneColor, obtainedColor, perfectMatch, density };
+  const isLight = obtainedColor.reduce((acc, x) => acc + x, 0) > 382;
+  const hsl = hexToHSL(pantoneColor.value);
+  return {
+    ...pantoneColor,
+    obtainedColor,
+    perfectMatch,
+    density,
+    isLight,
+    hsl,
+  };
 });
 
 writeFileSync(
   "./output/pantone-colors-densities.json",
+  JSON.stringify(pantoneDensities, null, 2)
+);
+
+writeFileSync(
+  "../backend/src/data/pantone-colors.json",
   JSON.stringify(pantoneDensities, null, 2)
 );
 
