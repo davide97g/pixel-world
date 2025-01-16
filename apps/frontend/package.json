@@ -12,14 +12,17 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.4.8",
+    "@pixel-world/types": "0.1.0",
+    "@supabase/auth-ui-react": "^0.4.7",
+    "@supabase/auth-ui-shared": "^0.1.8",
+    "@supabase/supabase-js": "^2.47.15",
     "@tanstack/react-query": "^5.62.11",
     "firebase": "^11.1.0",
     "framer-motion": "^11.11.17",
     "lucide-react": "^0.460.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.1.1",
-    "@pixel-world/types": "0.1.0"
+    "react-router-dom": "^7.1.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.3",

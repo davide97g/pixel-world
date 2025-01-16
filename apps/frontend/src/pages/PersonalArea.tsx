@@ -1,4 +1,4 @@
-import { Button, Chip, Divider, Input, Tooltip } from '@nextui-org/react';
+import { Button, Divider } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import User from '../components/User';
 
@@ -12,14 +12,14 @@ import { useAuth } from '../hooks/useAuth';
 import { useLayout } from '../hooks/useLayout';
 
 export default function PersonalArea() {
-  const { isLogged, user, isAdmin } = useAuth();
+  const { session } = useAuth();
   const { isPending } = useUserUpdateUser();
   const { isMobile } = useLayout();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLogged) navigate('/login');
-  }, [isLogged, navigate]);
+    if (!session) navigate('/login');
+  }, [session, navigate]);
 
   const handleLogout = async () => {
     AUTH.logout().then(() => navigate('/'));
@@ -42,73 +42,17 @@ export default function PersonalArea() {
         {isMobile ? '' : 'Home'}
       </Button>
       <User interactive={false} />
-      <div className="flex flex-col gap-5 w-full">
-        {isAdmin && (
-          <Chip
-            color="primary"
-            variant="shadow"
-            className="cursor-pointer text-xs sm:text-sm self-center"
-            classNames={{
-              base: 'bg-gradient-to-br from-indigo-500 to-pink-500 border-small border-white/10 shadow-pink-500/30',
-              content: 'drop-shadow shadow-black text-white',
-            }}
-          >
-            Admin
-          </Chip>
-        )}
-        <Input
-          isReadOnly
-          type="email"
-          label="Public Name"
-          color="secondary"
-          variant="bordered"
-          value={user?.displayName}
-          className="max-w-xs"
-        />
-        <Input
-          isReadOnly
-          type="email"
-          label="Email"
-          color="secondary"
-          variant="bordered"
-          value={user?.email}
-          className="max-w-xs"
-        />
-        <div className="flex flex-row gap-2 sm:gap-4">
-          <Chip
-            variant="flat"
-            color="secondary"
-            className="cursor-pointer text-xs sm:text-sm"
-            style={{
-              backgroundColor: user?.color.value,
-              color: user?.color.isLight ? 'black' : 'white',
-            }}
-          >
-            Your color: {user?.color.name}
-          </Chip>
-          <Tooltip color="foreground" content="This is the your custom color">
-            <Button
-              className="h-40 w-40 rounded-md "
-              style={{ backgroundColor: user?.color.value }}
-              onClick={() =>
-                navigate(`/color/${user?.color.value.replace('#', '')}`)
-              }
-            />
-          </Tooltip>
-        </div>
+      <Divider className="my-2" />
 
-        <Divider className="my-2" />
-
-        <div className="flex flex-row gap-2 sm:gap-4">
-          <Button
-            color="danger"
-            onClick={handleLogout}
-            size={isMobile ? 'sm' : 'md'}
-            className="text-xs sm:text-sm"
-          >
-            Logout
-          </Button>
-        </div>
+      <div className="flex flex-row gap-2 sm:gap-4">
+        <Button
+          color="danger"
+          onClick={handleLogout}
+          size={isMobile ? 'sm' : 'md'}
+          className="text-xs sm:text-sm"
+        >
+          Logout
+        </Button>
       </div>
     </div>
   );

@@ -1,95 +1,33 @@
-import { User } from 'firebase/auth';
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
-import { auth } from '../config/firebase';
 
-import { IUser } from '@pixel-world/types';
-
-import { useUserCreateUser } from '../hooks/database/user/useUserCreateUser';
-import { useUserGetUserById } from '../hooks/database/user/useUserGetUserById';
-import { useServerGetInfo } from '../hooks/useServerGetInfo';
-import { API } from '../services/api';
+import { Session } from '@supabase/supabase-js';
+import { supabase } from '../config/supabase';
 
 interface AuthContext {
-  user?: IUser;
-  isAdmin: boolean;
-  isLogged: boolean;
-  refetch: () => void;
-  isServerReady: boolean;
+  session: Session | null;
 }
 
 export const AuthContext = createContext({
-  user: undefined,
+  session: null,
 } as AuthContext);
 
 export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [loading, setLoading] = useState(true);
-  const [firebaseUser, setFirebaseUser] = useState<User>();
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const serverInfo = useServerGetInfo();
-  const {
-    data: user,
-    refetch,
-    isFetching,
-  } = useUserGetUserById(firebaseUser?.uid);
-  const { mutateAsync: createUser } = useUserCreateUser();
-
-  const isLogged = useMemo(() => !!firebaseUser, [firebaseUser]);
+  const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
     // admin claim
-    firebaseUser
-      ?.getIdTokenResult()
-      .then((idTokenResult) => {
-        setIsAdmin(!!idTokenResult.claims.admin);
-      })
-      .catch(() => setIsAdmin(false));
-  }, [firebaseUser]);
-
-  useEffect(() => {
-    if (!firebaseUser) return;
-    if (isFetching) return;
-
-    if (user) {
-      setLoading(false);
-      return;
-    }
-    // if first time, generate color
-    API.generateCustomColor().then((res) => {
-      const color = res?.color;
-      if (!color) {
-        setLoading(false);
-        console.error('Failed to generate custom color');
-        return;
-      }
-      createUser({
-        id: firebaseUser.uid,
-        email: firebaseUser.email ?? '',
-        displayName: firebaseUser.displayName ?? '',
-        photoURL: firebaseUser.photoURL ?? '',
-        color,
-      });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
       setLoading(false);
     });
-  }, [user, createUser, firebaseUser, isFetching]);
-
-  useEffect(
-    () =>
-      auth.onAuthStateChanged(async (user) => {
-        setFirebaseUser(user ?? undefined);
-        if (!user) setLoading(false);
-      }),
-    [createUser],
-  );
+  }, [session]);
 
   const value = useMemo(
     () => ({
-      user,
-      isAdmin,
-      isLogged,
-      refetch,
-      isServerReady: serverInfo.isSuccess,
+      session,
     }),
-    [user, isAdmin, isLogged, refetch, serverInfo],
+    [session],
   );
 
   return (
