@@ -1,9 +1,9 @@
 import { type Express, type Request, type Response } from "express";
 
-import { version } from "../../package.json";
-import { generateColorForNewUser, getColorByHex } from "../features/color";
-import { updateUser } from "../features/user/updateUser";
-import { getUserInfoFromToken } from "../middleware/utils";
+import { version } from "../../../package.json";
+import { generateColorForNewUser, getColorByHex } from "../../features/color";
+import { updateUser } from "../../features/user/updateUser";
+import { getUserInfoFromToken } from "../../middleware/utils";
 
 export const addPublicRoutes = (app: Express) => {
   app.get("/", (_: Request, res: Response) => {
