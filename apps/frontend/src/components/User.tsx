@@ -2,25 +2,16 @@ import { Avatar } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-export default function User({
-  interactive = true,
-}: Readonly<{
-  interactive?: boolean;
-}>) {
-  const { isLogged, isAdmin, user } = useAuth();
+export default function User() {
+  const { isAdmin, user } = useAuth();
   const navigate = useNavigate();
 
+  console.info(user);
   return (
-    <Avatar
-      className={`absolute top-3 right-3 ${
-        interactive ? "cursor-pointer" : ""
-      }`}
-      isBordered
-      radius="full"
-      color={isAdmin ? "primary" : "default"}
-      showFallback={!isLogged}
-      getInitials={() => user?.user_metadata.full_name || ""}
-      onClick={() => (interactive ? navigate("/me") : undefined)}
-    />
+    <div className="flex flex-col items-center gap-2">
+      <Avatar alt={user?.email} size="lg" onClick={() => navigate("/me")} />
+      <p className="text-md">{user?.email}</p>
+      {isAdmin && <p className="text-sm">Admin</p>}
+    </div>
   );
 }

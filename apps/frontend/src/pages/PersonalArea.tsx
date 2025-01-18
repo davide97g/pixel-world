@@ -10,14 +10,12 @@ import { Loader } from "../components/Loader";
 
 import { useAuth } from "../hooks/useAuth";
 import { useLayout } from "../hooks/useLayout";
-import { useAPI } from "../services/api";
 
 export default function PersonalArea() {
-  const { session, user, loading } = useAuth();
+  const { session, loading } = useAuth();
 
   const { isMobile } = useLayout();
   const navigate = useNavigate();
-  const { getUser } = useAPI();
 
   useEffect(() => {
     if (!session) navigate("/login");
@@ -27,21 +25,12 @@ export default function PersonalArea() {
     AUTH.logout().then(() => navigate("/"));
   };
 
-  console.info({ user });
-
-  const testGetByUser = () => {
-    getUser().then((res) => {
-      console.info({ res });
-    });
-  };
-
   return (
     <div className="w-full sm:w-6/12 flex flex-col justify-center items-center gap-4 px-10">
       {loading && <Loader />}
-      <div className="pt-28 md:pt-20 flex flex-col items-center">
+      <div className="pt-28 md:pt-20 flex flex-col items-center gap-2">
+        <img src="src/assets/logo.png" alt="logo" height="150" width="150" />
         <h1 className="text-2xl">Personal Area</h1>
-        <br />
-        <p>{user?.email}</p>
       </div>
       <Button
         isIconOnly={isMobile}
@@ -53,15 +42,7 @@ export default function PersonalArea() {
       >
         {isMobile ? "" : "Home"}
       </Button>
-      <User interactive={false} />
-      <Divider className="my-2" />
-      <Button
-        className="text-xs sm:text-sm"
-        onPress={() => testGetByUser()}
-        variant="ghost"
-      >
-        Get User
-      </Button>
+      <User />
       <Divider className="my-2" />
       <div className="flex flex-row gap-2 sm:gap-4">
         <Button

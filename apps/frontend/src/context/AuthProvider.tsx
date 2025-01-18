@@ -1,12 +1,14 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 
-import { Session, User } from "@supabase/supabase-js";
+import { IUser } from "@pixel-world/types";
+import { Session } from "@supabase/supabase-js";
 import { supabase } from "../config/supabase";
 import { useServerGetInfo } from "../hooks/useServerGetInfo";
+import { getUserInfo } from "../services/userInfo";
 
 interface AuthContext {
   session?: Session;
-  user?: User;
+  user?: IUser;
   isLogged: boolean;
   isAdmin: boolean;
   isServerReady: boolean;
@@ -20,6 +22,7 @@ export const AuthContext = createContext({
 export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<Session>();
+  const [user, setUser] = useState<IUser>();
   const serverInfo = useServerGetInfo();
 
   useEffect(() => {
@@ -27,7 +30,10 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
       .getSession()
       .then(({ data: { session } }) => {
         setSession(session ?? undefined);
-        // TODO: retrieve user data from database
+        if (session)
+          return getUserInfo({ access_token: session.access_token }).then(
+            (res) => setUser(res)
+          );
       })
       .finally(() => setLoading(false));
   }, []);
@@ -35,13 +41,13 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const value = useMemo(
     () => ({
       session,
-      user: session?.user,
+      user,
       isLogged: !!session,
       isAdmin: session?.user?.role === "admin",
       isServerReady: serverInfo.isSuccess,
       loading,
     }),
-    [loading, serverInfo.isSuccess, session]
+    [loading, serverInfo.isSuccess, session, user]
   );
 
   return (
