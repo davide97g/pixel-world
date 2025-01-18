@@ -10,6 +10,7 @@ interface AuthContext {
   isLogged: boolean;
   isAdmin: boolean;
   isServerReady: boolean;
+  loading: boolean;
 }
 
 export const AuthContext = createContext({
@@ -22,12 +23,14 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const serverInfo = useServerGetInfo();
 
   useEffect(() => {
-    // admin claim
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session ?? undefined);
-      setLoading(false);
-    });
-  }, [session]);
+    supabase.auth
+      .getSession()
+      .then(({ data: { session } }) => {
+        setSession(session ?? undefined);
+        // TODO: retrieve user data from database
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -36,8 +39,9 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
       isLogged: !!session,
       isAdmin: session?.user?.role === "admin",
       isServerReady: serverInfo.isSuccess,
+      loading,
     }),
-    [serverInfo.isSuccess, session]
+    [loading, serverInfo.isSuccess, session]
   );
 
   return (

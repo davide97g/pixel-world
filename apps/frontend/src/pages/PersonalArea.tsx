@@ -1,45 +1,49 @@
-import { Button, Divider } from '@nextui-org/react';
-import { useNavigate } from 'react-router-dom';
-import User from '../components/User';
+import { Button, Divider } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
+import User from "../components/User";
 
-import { AUTH } from '../services/auth';
+import { AUTH } from "../services/auth";
 
-import { ArrowLeft } from 'lucide-react';
-import { useEffect } from 'react';
-import { Loader } from '../components/Loader';
-import { useUserUpdateUser } from '../hooks/database/user/useUserUpdateUser';
-import { useAuth } from '../hooks/useAuth';
-import { useLayout } from '../hooks/useLayout';
+import { ArrowLeft } from "lucide-react";
+import { useEffect } from "react";
+import { Loader } from "../components/Loader";
+import { useUserUpdateUser } from "../hooks/database/user/useUserUpdateUser";
+import { useAuth } from "../hooks/useAuth";
+import { useLayout } from "../hooks/useLayout";
 
 export default function PersonalArea() {
-  const { session } = useAuth();
+  const { session, user } = useAuth();
   const { isPending } = useUserUpdateUser();
   const { isMobile } = useLayout();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!session) navigate('/login');
+    if (!session) navigate("/login");
   }, [session, navigate]);
 
   const handleLogout = async () => {
-    AUTH.logout().then(() => navigate('/'));
+    AUTH.logout().then(() => navigate("/"));
   };
+
+  console.info({ user });
 
   return (
     <div className="w-full sm:w-6/12 flex flex-col justify-center items-center gap-4 px-10">
       {isPending && <Loader />}
-      <div className="pt-28 md:pt-20 flex flex-row items-center">
+      <div className="pt-28 md:pt-20 flex flex-col items-center">
         <h1 className="text-2xl">Personal Area</h1>
+        <br />
+        <p>{user?.email}</p>
       </div>
       <Button
         isIconOnly={isMobile}
-        size={isMobile ? 'sm' : 'md'}
+        size={isMobile ? "sm" : "md"}
         className="text-xs sm:text-sm absolute top-2 left-2 sm:top-4 sm:left-4"
-        onClick={() => navigate('/')}
+        onPress={() => navigate("/")}
         variant="ghost"
         startContent={<ArrowLeft />}
       >
-        {isMobile ? '' : 'Home'}
+        {isMobile ? "" : "Home"}
       </Button>
       <User interactive={false} />
       <Divider className="my-2" />
@@ -47,8 +51,8 @@ export default function PersonalArea() {
       <div className="flex flex-row gap-2 sm:gap-4">
         <Button
           color="danger"
-          onClick={handleLogout}
-          size={isMobile ? 'sm' : 'md'}
+          onPress={handleLogout}
+          size={isMobile ? "sm" : "md"}
           className="text-xs sm:text-sm"
         >
           Logout
