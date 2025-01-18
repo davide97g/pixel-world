@@ -2,6 +2,7 @@ import { type Express, type Request, type Response } from "express";
 
 import { version } from "../../package.json";
 import { generateColorForNewUser, getColorByHex } from "../features/color";
+import { getUsers } from "../features/user/getUsers";
 import { updateUser } from "../features/user/updateUser";
 import { getUserInfoFromToken } from "../middleware/utils";
 
@@ -28,6 +29,14 @@ export const addPublicRoutes = (app: Express) => {
     if (!color) return res.status(404).send({ message: "Color not found" });
     res.send({
       color,
+    });
+  });
+
+  app.get("/users", async (_: Request, res: Response) => {
+    const users = await getUsers();
+    res.send({
+      message: "Users",
+      users,
     });
   });
 

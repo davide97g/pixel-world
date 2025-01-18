@@ -1,11 +1,9 @@
 import cors from "cors";
-import dotenv from "dotenv";
+
 import express from "express";
 import { addPublicRoutes } from "./api/public";
 import { initializeFirebaseApp } from "./config/firebase";
 import "./websocket";
-
-dotenv.config();
 
 initializeFirebaseApp();
 
