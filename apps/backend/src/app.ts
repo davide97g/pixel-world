@@ -1,16 +1,10 @@
 import cors from "cors";
-import dotenv from "dotenv";
 import express from "express";
+import "./config/supabase";
+
 import { addPublicRoutes } from "./api/public";
-import { initializeFirebaseApp } from "./config/firebase";
-import "./websocket";
-
-dotenv.config();
-
-initializeFirebaseApp();
 
 const app = express();
-
 const allowedOrigins = ["http://localhost:8080", "https://pxel.world"];
 
 app.use(

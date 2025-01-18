@@ -1,14 +1,13 @@
-import { lazy, Suspense } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { lazy, Suspense } from "react";
+import { createBrowserRouter } from "react-router-dom";
 
-const Create = lazy(() => import('../pages/Create'));
-const Color = lazy(() => import('../pages/Color'));
-const Login = lazy(() => import('../pages/Login'));
-const PersonalArea = lazy(() => import('../pages/PersonalArea'));
+const Create = lazy(() => import("../pages/Create"));
+const Login = lazy(() => import("../pages/Login"));
+const PersonalArea = lazy(() => import("../pages/PersonalArea"));
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: (
       <Suspense>
         <Create />
@@ -17,7 +16,7 @@ export const router = createBrowserRouter([
     errorElement: <div>404 Not Found</div>,
   },
   {
-    path: '/login',
+    path: "/login",
     element: (
       <Suspense>
         <Login />
@@ -25,18 +24,10 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: '/me',
+    path: "/me",
     element: (
       <Suspense>
         <PersonalArea />
-      </Suspense>
-    ),
-  },
-  {
-    path: '/color/:color',
-    element: (
-      <Suspense>
-        <Color />
       </Suspense>
     ),
   },

@@ -1,10 +1,12 @@
-import { IColor } from "@pixel-world/types";
-import { auth } from "../config/firebase";
+import { useAuth } from "../hooks/useAuth";
 
 const BACKEND_URL = import.meta.env.VITE_SERVER_URL;
 
-export const API = {
-  getServerInfo: async () => {
+export const useAPI = () => {
+  const { session } = useAuth();
+  const access_token = session?.access_token;
+
+  const getServerInfo = () => {
     return fetch(`${BACKEND_URL}`)
       .then((res) => res.json())
       .then((res) => res as { version: string })
@@ -12,48 +14,26 @@ export const API = {
         console.info(err);
         return { version: "unknown" };
       });
-  },
-  getColorByHex: async (hex: string) => {
-    return fetch(`${BACKEND_URL}/color/${hex}`, {
+  };
+
+  const getUser = async () => {
+    const res = await fetch(`${BACKEND_URL}/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        ...(access_token && { Authorization: `Bearer ${access_token}` }),
       },
-    })
-      .then(async (res) => {
-        if (res.status === 200) {
-          const resJson = await res.json();
-          return resJson as { color: IColor };
-        } else return { color: { name: "Color not found" } };
-      })
-      .then((res) => res.color)
-      .catch((err) => {
-        console.info(err);
-        return undefined;
-      });
-  },
-  generateCustomColor: async () => {
-    const idToken = await auth.currentUser?.getIdToken().catch((err) => {
-      console.info(err);
-      return null;
     });
+    const res_1 = await res.json();
+    return res_1 as {
+      id: string;
+      email: string;
+      created_at: string;
+    };
+  };
 
-    if (!auth.currentUser?.uid) return null;
-
-    return fetch(`${BACKEND_URL}/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(idToken && { Authorization: `Bearer ${idToken}` }),
-      },
-    })
-      .then((res) => res.json())
-      .then(
-        (res) =>
-          res as {
-            message: string;
-            color: IColor;
-          }
-      );
-  },
+  return {
+    getServerInfo,
+    getUser,
+  };
 };

@@ -7,15 +7,17 @@ import { AUTH } from "../services/auth";
 import { ArrowLeft } from "lucide-react";
 import { useEffect } from "react";
 import { Loader } from "../components/Loader";
-import { useUserUpdateUser } from "../hooks/database/user/useUserUpdateUser";
+
 import { useAuth } from "../hooks/useAuth";
 import { useLayout } from "../hooks/useLayout";
+import { useAPI } from "../services/api";
 
 export default function PersonalArea() {
-  const { session, user } = useAuth();
-  const { isPending } = useUserUpdateUser();
+  const { session, user, loading } = useAuth();
+
   const { isMobile } = useLayout();
   const navigate = useNavigate();
+  const { getUser } = useAPI();
 
   useEffect(() => {
     if (!session) navigate("/login");
@@ -27,9 +29,15 @@ export default function PersonalArea() {
 
   console.info({ user });
 
+  const testGetByUser = () => {
+    getUser().then((res) => {
+      console.info({ res });
+    });
+  };
+
   return (
     <div className="w-full sm:w-6/12 flex flex-col justify-center items-center gap-4 px-10">
-      {isPending && <Loader />}
+      {loading && <Loader />}
       <div className="pt-28 md:pt-20 flex flex-col items-center">
         <h1 className="text-2xl">Personal Area</h1>
         <br />
@@ -47,7 +55,14 @@ export default function PersonalArea() {
       </Button>
       <User interactive={false} />
       <Divider className="my-2" />
-
+      <Button
+        className="text-xs sm:text-sm"
+        onPress={() => testGetByUser()}
+        variant="ghost"
+      >
+        Get User
+      </Button>
+      <Divider className="my-2" />
       <div className="flex flex-row gap-2 sm:gap-4">
         <Button
           color="danger"
