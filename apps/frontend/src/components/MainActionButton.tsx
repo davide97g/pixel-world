@@ -5,11 +5,11 @@ import {
   DropdownMenu,
   DropdownSection,
   DropdownTrigger,
-} from '@nextui-org/react';
-import { BrushIcon } from 'lucide-react';
-import { useState } from 'react';
-import { useCreator } from '../context/CreatorProvider';
-import { ColorSelectionModal } from './ColorSelectionModal';
+} from "@heroui/react";
+import { BrushIcon } from "lucide-react";
+import { useState } from "react";
+import { useCreator } from "../context/CreatorProvider";
+import { ColorSelectionModal } from "./ColorSelectionModal";
 
 export function MainActionButton() {
   const { setMode } = useCreator();
@@ -31,13 +31,13 @@ export function MainActionButton() {
         variant="flat"
         aria-label="Dropdown menu with shortcut"
         onAction={(key) => {
-          if (key === 'create') {
-            setMode('create');
-          } else if (key === 'delete') {
-            setMode('delete');
-          } else if (key === 'edit') {
-            setMode('edit');
-          } else if (key === 'color') {
+          if (key === "create") {
+            setMode("create");
+          } else if (key === "delete") {
+            setMode("delete");
+          } else if (key === "edit") {
+            setMode("edit");
+          } else if (key === "color") {
             setIsOpen(true);
           }
         }}

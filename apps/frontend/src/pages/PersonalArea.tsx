@@ -1,4 +1,4 @@
-import { Button, Divider } from "@nextui-org/react";
+import { Button, Divider } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import User from "../components/User";
 
