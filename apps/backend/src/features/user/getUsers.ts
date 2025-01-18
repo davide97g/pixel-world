@@ -1,10 +1,10 @@
-import sql from "../../config/postgres";
+import { supabase } from "../../config/supabase";
 
 export async function getUsers() {
-  const users = await sql`
-          select
-            *
-          from users
-        `;
+  const { data: users, error } = await supabase.from("users").select("*");
+  if (error) {
+    console.error(error);
+    return null;
+  }
   return users;
 }

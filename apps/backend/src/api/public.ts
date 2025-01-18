@@ -2,7 +2,7 @@ import { type Express, type Request, type Response } from "express";
 
 import { version } from "../../package.json";
 import { generateColorForNewUser, getColorByHex } from "../features/color";
-import { getUsers } from "../features/user/getUsers";
+import { getUserById } from "../features/user/getUserById";
 import { updateUser } from "../features/user/updateUser";
 import { getUserInfoFromToken } from "../middleware/utils";
 
@@ -13,11 +13,11 @@ export const addPublicRoutes = (app: Express) => {
 
   app.post("/register", async (req: Request, res: Response) => {
     const user = await getUserInfoFromToken(req);
-    if (!user?.uid) return res.status(401).send({ message: "Unauthorized" });
+    if (!user?.id) return res.status(401).send({ message: "Unauthorized" });
     const color = await generateColorForNewUser();
-    await updateUser(user.uid, { color });
+    await updateUser(user.id, { color });
     res.send({
-      message: `Registered ${user.uid} with color: ${color.name}`,
+      message: `Registered ${user.id} with color: ${color.name}`,
       color,
     });
   });
@@ -32,11 +32,13 @@ export const addPublicRoutes = (app: Express) => {
     });
   });
 
-  app.get("/users", async (_: Request, res: Response) => {
-    const users = await getUsers();
+  app.get("/user", async (req: Request, res: Response) => {
+    const user = await getUserInfoFromToken(req);
+    if (!user?.id) return res.status(401).send({ message: "Unauthorized" });
+    console.log("user", user);
+    const databaseUser = await getUserById({ userId: user.id });
     res.send({
-      message: "Users",
-      users,
+      user: databaseUser,
     });
   });
 

@@ -1,8 +1,16 @@
-import { IUser } from "@pixel-world/types";
-import { getFirestore } from "firebase-admin/firestore";
+import { IColor } from "@pixel-world/types";
+import { supabase } from "../../config/supabase";
 
-export function updateUser(uid: string, data: Partial<IUser>) {
-  const db = getFirestore();
-  const userRef = db.collection("users").doc(uid);
-  return userRef.set(data, { merge: true });
+export async function updateUser(userId: string, data: { color: IColor }) {
+  const user = await supabase
+    .from("users")
+    .select("*")
+    .eq("id", userId)
+    .single();
+
+  if (!user) {
+    throw new Error(`User not found: ${userId}`);
+  }
+
+  return supabase.from("users").upsert({ ...user, ...data });
 }

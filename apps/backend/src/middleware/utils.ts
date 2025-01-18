@@ -1,23 +1,22 @@
 import { Request } from "express";
-import { getAuth } from "firebase-admin/auth";
+import { supabase } from "../config/supabase";
 
 export const getUserInfoFromToken = async (
   req: Request
 ): Promise<{
-  uid: string;
-  displayName: string;
-  photoURL: string;
+  id?: string;
+  email?: string;
 } | null> => {
   const bearerToken = req.header("Authorization");
   if (!bearerToken) return null;
   try {
-    const tokenInfo = await getAuth().verifyIdToken(
-      bearerToken.split("Bearer ")[1]
-    );
+    const tokenString = bearerToken.split("Bearer ")[1];
+    if (!tokenString) return null;
+    const userInfo = await supabase.auth.getUser(tokenString);
+    const user = userInfo.data.user;
     return {
-      uid: tokenInfo.uid,
-      displayName: tokenInfo.name,
-      photoURL: tokenInfo.picture!,
+      id: user?.id,
+      email: user?.email,
     };
   } catch (err) {
     return null;

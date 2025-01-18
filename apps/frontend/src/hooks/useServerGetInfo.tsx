@@ -1,10 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
-import { API } from '../services/api';
+import { useQuery } from "@tanstack/react-query";
+import { useAPI } from "../services/api";
 
 export function useServerGetInfo() {
+  const { getServerInfo } = useAPI();
   return useQuery({
-    queryKey: ['server'],
-    queryFn: () => API.getServerInfo(),
+    queryKey: ["server"],
+    queryFn: () => getServerInfo(),
     staleTime: 1000 * 60 * 5,
   });
 }

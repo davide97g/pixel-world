@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-import admin from "firebase-admin";
 
 dotenv.config();
 
@@ -18,8 +17,3 @@ const getSecretJson = () => {
 };
 
 const serviceAccount = getSecretJson();
-
-export const initializeFirebaseApp = () =>
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
