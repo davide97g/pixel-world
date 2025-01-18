@@ -1,24 +1,30 @@
-import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
+import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 
-import { Session } from '@supabase/supabase-js';
-import { supabase } from '../config/supabase';
+import { Session, User } from "@supabase/supabase-js";
+import { supabase } from "../config/supabase";
+import { useServerGetInfo } from "../hooks/useServerGetInfo";
 
 interface AuthContext {
-  session: Session | null;
+  session?: Session;
+  user?: User;
+  isLogged: boolean;
+  isAdmin: boolean;
+  isServerReady: boolean;
 }
 
 export const AuthContext = createContext({
-  session: null,
+  session: undefined,
 } as AuthContext);
 
 export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<Session>();
+  const serverInfo = useServerGetInfo();
 
   useEffect(() => {
     // admin claim
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
+      setSession(session ?? undefined);
       setLoading(false);
     });
   }, [session]);
@@ -26,8 +32,12 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const value = useMemo(
     () => ({
       session,
+      user: session?.user,
+      isLogged: !!session,
+      isAdmin: session?.user?.role === "admin",
+      isServerReady: serverInfo.isSuccess,
     }),
-    [session],
+    [serverInfo.isSuccess, session]
   );
 
   return (

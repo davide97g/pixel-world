@@ -1,7 +1,7 @@
-import { useParams } from 'react-router-dom';
-import { IColor } from '../../../types/color.types';
-import { Loader } from '../components/Loader';
-import { useColorGetColorByHer } from '../hooks/database/color/useColorGetColorByHex';
+import { IColor } from "@pixel-world/types";
+import { useParams } from "react-router-dom";
+import { Loader } from "../components/Loader";
+import { useColorGetColorByHer } from "../hooks/database/color/useColorGetColorByHex";
 
 export default function Color() {
   const { color } = useParams<{ color: string }>();
@@ -26,12 +26,12 @@ export default function Color() {
             />
             <div className="flex flex-col gap-1">
               <div className="text-xs">HEX: {value}</div>
-              <div className="text-xs">RGB: {rgb.join(', ')}</div>
-              <div className="text-xs">HSL: {hsl?.join(', ')}</div>
+              <div className="text-xs">RGB: {rgb.join(", ")}</div>
+              <div className="text-xs">HSL: {hsl?.join(", ")}</div>
             </div>
           </div>
           <div className="text-xs">Density: {density}</div>
-          <div className="text-xs">Is light: {isLight ? 'Yes' : 'No'}</div>
+          <div className="text-xs">Is light: {isLight ? "Yes" : "No"}</div>
         </div>
       </div>
     </div>

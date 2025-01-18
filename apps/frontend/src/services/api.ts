@@ -1,7 +1,7 @@
-import { IColor } from '../../../types/color.types';
-import { auth } from '../config/firebase';
+import { IColor } from "@pixel-world/types";
+import { auth } from "../config/firebase";
 
-const BACKEND_URL = 'http://localhost:3000';
+const BACKEND_URL = import.meta.env.VITE_SERVER_URL;
 
 export const API = {
   getServerInfo: async () => {
@@ -10,21 +10,21 @@ export const API = {
       .then((res) => res as { version: string })
       .catch((err) => {
         console.info(err);
-        return { version: 'unknown' };
+        return { version: "unknown" };
       });
   },
   getColorByHex: async (hex: string) => {
     return fetch(`${BACKEND_URL}/color/${hex}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
       .then(async (res) => {
         if (res.status === 200) {
           const resJson = await res.json();
           return resJson as { color: IColor };
-        } else return { color: { name: 'Color not found' } };
+        } else return { color: { name: "Color not found" } };
       })
       .then((res) => res.color)
       .catch((err) => {
@@ -41,9 +41,9 @@ export const API = {
     if (!auth.currentUser?.uid) return null;
 
     return fetch(`${BACKEND_URL}/register`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...(idToken && { Authorization: `Bearer ${idToken}` }),
       },
     })
@@ -53,7 +53,7 @@ export const API = {
           res as {
             message: string;
             color: IColor;
-          },
+          }
       );
   },
 };
