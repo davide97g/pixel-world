@@ -37,6 +37,8 @@ export const addPublicRoutes = (app: Express) => {
     if (!user?.id) return res.status(401).send({ message: "Unauthorized" });
     console.log("user", user);
     const databaseUser = await getUserById({ userId: user.id });
+    if (!databaseUser)
+      return res.status(404).send({ message: "User not found" });
     res.send({
       user: databaseUser,
     });
