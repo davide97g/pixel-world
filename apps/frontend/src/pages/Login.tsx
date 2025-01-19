@@ -1,26 +1,27 @@
-import { useNavigate } from 'react-router-dom';
-import { AUTH } from '../services/auth';
+import { Button, Input } from "@heroui/react";
+import { useNavigate } from "react-router-dom";
+import { AUTH } from "../services/auth";
 
-import { useEffect, useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
+import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Login() {
   const { session } = useAuth();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleWithMailAndPassword = async () => {
     AUTH.login({ email, password }).then((result) => {
       console.log({ result });
 
-      if (result) navigate('/');
+      if (result) navigate("/");
     });
   };
 
   useEffect(() => {
-    if (session) navigate('/me');
+    if (session) navigate("/");
   }, [session, navigate]);
 
   return (
@@ -32,24 +33,29 @@ export default function Login() {
         By logging in you will be able to record stats from your games and
         participate in the ranking.
       </p>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleWithMailAndPassword();
-        }}
-      >
-        <input
-          placeholder="email"
+      <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+        <Input
+          type="email"
+          labelPlacement="outside-left"
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input
-          placeholder="password"
+        <Input
+          type="password"
+          labelPlacement="outside"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
-      </form>
+      </div>
+      <Button
+        type="submit"
+        disabled={!email || !password}
+        onClick={handleWithMailAndPassword}
+      >
+        Login
+      </Button>
     </div>
   );
 }

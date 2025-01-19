@@ -6,24 +6,26 @@ const PersonalArea = lazy(() => import("./pages/PersonalArea"));
 
 function App() {
   return (
-    <Routes>
-      <Route
-        index
-        element={
-          <Suspense>
-            <PersonalArea />
-          </Suspense>
-        }
-      />
-      <Route
-        path="/login"
-        element={
-          <Suspense>
-            <Login />
-          </Suspense>
-        }
-      />
-    </Routes>
+    <main className="purple-dark text-foreground bg-background">
+      <Routes>
+        <Route
+          index
+          element={
+            <Suspense>
+              <PersonalArea />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <Suspense>
+              <Login />
+            </Suspense>
+          }
+        />
+      </Routes>
+    </main>
   );
 }
 

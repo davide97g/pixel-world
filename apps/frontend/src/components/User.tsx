@@ -9,7 +9,7 @@ export default function User() {
   console.info(user);
   return (
     <div className="flex flex-col items-center gap-2">
-      <Avatar alt={user?.email} size="lg" onClick={() => navigate("/me")} />
+      <Avatar alt={user?.email} size="lg" onClick={() => navigate("/")} />
       <p className="text-md">{user?.email}</p>
       {isAdmin && <p className="text-sm">Admin</p>}
     </div>

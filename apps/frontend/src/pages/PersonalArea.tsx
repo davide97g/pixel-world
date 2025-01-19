@@ -1,16 +1,12 @@
-import { Button } from "@heroui/button";
-import { Divider } from "@heroui/divider";
-import { useNavigate } from "react-router-dom";
-import User from "../components/User";
-
-import { AUTH } from "../services/auth";
-
+import { Button, Divider } from "@heroui/react";
 import { ArrowLeft } from "lucide-react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Loader } from "../components/Loader";
-
+import User from "../components/User";
 import { useAuth } from "../hooks/useAuth";
 import { useLayout } from "../hooks/useLayout";
+import { AUTH } from "../services/auth";
 
 export default function PersonalArea() {
   const { session, loading } = useAuth();
@@ -23,7 +19,9 @@ export default function PersonalArea() {
   }, [session, navigate]);
 
   const handleLogout = async () => {
-    AUTH.logout().then(() => navigate("/"));
+    AUTH.logout()
+      .then(() => navigate("/login"))
+      .catch(console.error);
   };
 
   return (
@@ -48,7 +46,8 @@ export default function PersonalArea() {
       <div className="flex flex-row gap-2 sm:gap-4">
         <Button
           color="danger"
-          onClick={handleLogout}
+          variant="solid"
+          onClick={() => handleLogout()}
           size={isMobile ? "sm" : "md"}
           className="text-xs sm:text-sm"
         >
