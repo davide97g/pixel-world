@@ -1,4 +1,5 @@
-import { Button, Divider } from "@heroui/react";
+import { Button } from "@heroui/button";
+import { Divider } from "@heroui/divider";
 import { useNavigate } from "react-router-dom";
 import User from "../components/User";
 
@@ -36,7 +37,7 @@ export default function PersonalArea() {
         isIconOnly={isMobile}
         size={isMobile ? "sm" : "md"}
         className="text-xs sm:text-sm absolute top-2 left-2 sm:top-4 sm:left-4"
-        onPress={() => navigate("/")}
+        onClick={() => navigate("/")}
         variant="ghost"
         startContent={<ArrowLeft />}
       >
@@ -47,7 +48,7 @@ export default function PersonalArea() {
       <div className="flex flex-row gap-2 sm:gap-4">
         <Button
           color="danger"
-          onPress={handleLogout}
+          onClick={handleLogout}
           size={isMobile ? "sm" : "md"}
           className="text-xs sm:text-sm"
         >

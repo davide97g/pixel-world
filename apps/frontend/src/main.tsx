@@ -1,17 +1,17 @@
-import { HeroUIProvider } from "@heroui/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import { startWebSocketServer } from "./services/ws";
+import { BrowserRouter } from "react-router-dom";
 
-startWebSocketServer();
-
-const queryClient = new QueryClient();
+import App from "./App.tsx";
+import { Provider } from "./provider.tsx";
+import "@/styles/globals.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <HeroUIProvider>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
-  </HeroUIProvider>
+  <React.StrictMode>
+    <BrowserRouter>
+      <Provider>
+        <App />
+      </Provider>
+    </BrowserRouter>
+  </React.StrictMode>,
 );

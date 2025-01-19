@@ -4,9 +4,9 @@ import { Navbar } from "@/components/navbar";
 
 export default function DefaultLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <div className="relative flex flex-col h-screen">
       <Navbar />

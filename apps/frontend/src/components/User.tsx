@@ -1,4 +1,4 @@
-import { Avatar } from "@heroui/react";
+import { Avatar } from "@heroui/avatar";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
