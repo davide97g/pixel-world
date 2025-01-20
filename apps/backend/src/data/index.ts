@@ -7,4 +7,11 @@ const pantoneColorsJson = readFileSync(
 );
 const pantoneColors = JSON.parse(pantoneColorsJson) as IColor[];
 
-export { pantoneColors };
+const primaryColorsJson = readFileSync(
+  "./src/data/primary-colors.json",
+  "utf8"
+);
+
+const primaryColors = JSON.parse(primaryColorsJson) as IColor[];
+
+export { pantoneColors, primaryColors };

@@ -10,8 +10,17 @@ export async function getUserInfo({ access_token }: { access_token?: string }) {
       "Content-Type": "application/json",
       ...(access_token && { Authorization: `Bearer ${access_token}` }),
     },
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.error) throw new Error(data.error);
+      const { user } = data;
+      return {
+        id: user.id,
+        email: user.email,
+        colorId: user.color_hex_id,
+      } as IUser;
+    });
 
-  if (res.error) throw new Error(res.error);
-  return res.user as IUser;
+  return res;
 }

@@ -1,4 +1,4 @@
-export function hexToHSL(hex) {
+export function hexToHSL(hex: string): [number, number, number] {
   let r = 0,
     g = 0,
     b = 0;
@@ -36,5 +36,18 @@ export function hexToHSL(hex) {
   if (luminance > 0 && luminance < 1) {
     saturation = (max - min) / (1 - Math.abs(2 * luminance - 1));
   }
-  return [hue, saturation, luminance].map((x) => Math.round(x * 100) / 100);
+  const [h, s, l] = [hue, saturation, luminance].map(
+    (x) => Math.round(x * 100) / 100
+  );
+  return [h, s, l];
+}
+
+export function hexToRGB(hex: string): [number, number, number] | null {
+  const matches = hex.match(/\w\w/g);
+  if (!matches) {
+    console.error("Invalid hex color", hex);
+    return null;
+  }
+  const [r, g, b] = matches.map((x) => parseInt(x, 16));
+  return [r, g, b];
 }

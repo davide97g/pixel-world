@@ -1,20 +1,14 @@
-import { Button, Divider } from "@heroui/react";
-import { useNavigate } from "react-router-dom";
-import User from "../components/User";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuth } from "../hooks/useAuth";
 import { AUTH } from "../services/auth";
 
-import { ArrowLeft } from "lucide-react";
-import { useEffect } from "react";
-import { Loader } from "../components/Loader";
-
-import { useAuth } from "../hooks/useAuth";
-import { useLayout } from "../hooks/useLayout";
-
 export default function PersonalArea() {
-  const { session, loading } = useAuth();
+  const { session, user, loading } = useAuth();
 
-  const { isMobile } = useLayout();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,38 +16,37 @@ export default function PersonalArea() {
   }, [session, navigate]);
 
   const handleLogout = async () => {
-    AUTH.logout().then(() => navigate("/"));
+    AUTH.logout()
+      .then(() => navigate("/login"))
+      .catch(console.error);
   };
 
   return (
-    <div className="w-full sm:w-6/12 flex flex-col justify-center items-center gap-4 px-10">
-      {loading && <Loader />}
-      <div className="pt-28 md:pt-20 flex flex-col items-center gap-2">
-        <img src="src/assets/logo.png" alt="logo" height="150" width="150" />
-        <h1 className="text-2xl">Personal Area</h1>
-      </div>
-      <Button
-        isIconOnly={isMobile}
-        size={isMobile ? "sm" : "md"}
-        className="text-xs sm:text-sm absolute top-2 left-2 sm:top-4 sm:left-4"
-        onPress={() => navigate("/")}
-        variant="ghost"
-        startContent={<ArrowLeft />}
-      >
-        {isMobile ? "" : "Home"}
-      </Button>
-      <User />
-      <Divider className="my-2" />
-      <div className="flex flex-row gap-2 sm:gap-4">
-        <Button
-          color="danger"
-          onPress={handleLogout}
-          size={isMobile ? "sm" : "md"}
-          className="text-xs sm:text-sm"
-        >
-          Logout
-        </Button>
-      </div>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold">Personal Area</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-lg font-semibold">Your Email</h2>
+              <p className="text-gray-600">{user?.email}</p>
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold">Your Color ID</h2>
+              <p className="text-gray-600">{user?.colorId}</p>
+            </div>
+            <Button
+              onClick={handleLogout}
+              disabled={loading}
+              className="w-full"
+            >
+              {loading ? "Logging out..." : "Logout"}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -1,16 +1,16 @@
 import { lazy, Suspense } from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
 
-const Create = lazy(() => import("../pages/Create"));
 const Login = lazy(() => import("../pages/Login"));
+const Register = lazy(() => import("../pages/Register"));
 const PersonalArea = lazy(() => import("../pages/PersonalArea"));
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/register",
     element: (
       <Suspense>
-        <Create />
+        <Register />
       </Suspense>
     ),
     errorElement: <div>404 Not Found</div>,
@@ -20,6 +20,14 @@ export const router = createBrowserRouter([
     element: (
       <Suspense>
         <Login />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/",
+    element: (
+      <Suspense>
+        <PersonalArea />
       </Suspense>
     ),
   },
