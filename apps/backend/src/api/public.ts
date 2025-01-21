@@ -1,7 +1,7 @@
 import { type Express, type Request, type Response } from "express";
 
 import { version } from "../../package.json";
-import { generateColorForNewUser, getColorByHex } from "../features/color";
+import { generateColorForNewUser } from "../features/color";
 import { getUserById } from "../features/user/getUserById";
 import { updateUser } from "../features/user/updateUser";
 import { getUserInfoFromToken } from "../middleware/utils";
@@ -11,24 +11,18 @@ export const addPublicRoutes = (app: Express) => {
     res.send({ message: "Pxel Server", version });
   });
 
-  app.post("/register", async (req: Request, res: Response) => {
+  app.post("/user", async (req: Request, res: Response) => {
     const user = await getUserInfoFromToken(req);
     if (!user?.id) return res.status(401).send({ message: "Unauthorized" });
-    const color = await generateColorForNewUser();
-    await updateUser(user.id, { color });
-    res.send({
-      message: `Registered ${user.id} with color: ${color.name}`,
-      color,
-    });
-  });
+    const colorHexId = await generateColorForNewUser();
+    const updatedUser = await updateUser(user.id, { color_hex_id: colorHexId });
+    console.log("updatedUser", updatedUser);
+    if (!updatedUser)
+      return res.status(500).send({ message: "Failed to update user" });
 
-  app.get("/color/:hex", (req: Request, res: Response) => {
-    const hex = req.params.hex;
-    if (!hex) return res.status(400).send({ message: "Hex is required" });
-    const color = getColorByHex(`#${hex}`);
-    if (!color) return res.status(404).send({ message: "Color not found" });
-    res.send({
-      color,
+    return res.send({
+      message: `Registered ${user.id} with color: ${colorHexId}`,
+      colorHexId,
     });
   });
 

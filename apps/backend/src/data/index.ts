@@ -5,7 +5,11 @@ const pantoneColorsJson = readFileSync(
   "./src/data/pantone-colors.json",
   "utf8"
 );
-const pantoneColors = JSON.parse(pantoneColorsJson) as IColor[];
+
+const pantoneColors = JSON.parse(pantoneColorsJson) as {
+  names: string[];
+  values: string[];
+};
 
 const primaryColorsJson = readFileSync(
   "./src/data/primary-colors.json",

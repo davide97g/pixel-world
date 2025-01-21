@@ -1,16 +1,22 @@
-import { IColor } from "@pixel-world/types";
 import { supabase } from "../../config/supabase";
 
-export async function updateUser(userId: string, data: { color: IColor }) {
-  const user = await supabase
+export async function updateUser(
+  userId: string,
+  data: { color_hex_id: string }
+) {
+  const { data: user } = await supabase
     .from("users")
     .select("*")
     .eq("id", userId)
     .single();
 
-  if (!user) {
-    throw new Error(`User not found: ${userId}`);
-  }
+  const { error } = await supabase
+    .from("users")
+    .upsert({ ...(user ?? {}), id: userId, ...data });
 
-  return supabase.from("users").upsert({ ...user, ...data });
+  if (error !== null) {
+    console.error(error);
+    return false;
+  }
+  return true;
 }
