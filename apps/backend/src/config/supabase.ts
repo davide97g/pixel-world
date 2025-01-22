@@ -7,7 +7,7 @@ const supabaseKey = process.env.VITE_SUPABASE_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
   throw new Error(
-    "Please define VITE_SUPABASE_URL and VITE_SUPABASE_KEY in your .env file"
+    "Please define VITE_SUPABASE_URL and VITE_SUPABASE_KEY in your .env file",
   );
 }
 

@@ -2,7 +2,7 @@ import { Request } from "express";
 import { supabase } from "../config/supabase";
 
 export const getUserInfoFromToken = async (
-  req: Request
+  req: Request,
 ): Promise<{
   id?: string;
   email?: string;

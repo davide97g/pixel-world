@@ -3,7 +3,7 @@ import { readFileSync } from "fs";
 
 const pantoneColorsJson = readFileSync(
   "./src/data/pantone-colors.json",
-  "utf8"
+  "utf8",
 );
 
 const pantoneColors = JSON.parse(pantoneColorsJson) as {
@@ -13,7 +13,7 @@ const pantoneColors = JSON.parse(pantoneColorsJson) as {
 
 const primaryColorsJson = readFileSync(
   "./src/data/primary-colors.json",
-  "utf8"
+  "utf8",
 );
 
 const primaryColors = JSON.parse(primaryColorsJson) as IColor[];

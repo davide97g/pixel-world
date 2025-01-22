@@ -54,7 +54,7 @@ export function LayoutProvider({
       layout,
       isMobile,
     }),
-    [isMobile, layout]
+    [isMobile, layout],
   );
 
   return (

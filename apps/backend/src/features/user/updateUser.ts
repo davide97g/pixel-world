@@ -2,7 +2,7 @@ import { supabase } from "../../config/supabase";
 
 export async function updateUser(
   userId: string,
-  data: { color_hex_id: string }
+  data: { color_hex_id: string },
 ) {
   const { data: user } = await supabase
     .from("users")

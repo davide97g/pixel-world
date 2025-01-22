@@ -1,6 +1,6 @@
-import { type ReactNode, createContext, useContext, useState } from 'react';
+import { type ReactNode, createContext, useContext, useState } from "react";
 
-type Mode = 'create' | 'delete' | 'edit';
+type Mode = "create" | "delete" | "edit";
 
 interface CreatorContextProps {
   mode: Mode;
@@ -14,7 +14,7 @@ export const CreatorContext = createContext<CreatorContextProps | undefined>(
 export const CreatorProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }: Readonly<{ children: ReactNode }>) => {
-  const [mode, setMode] = useState<Mode>('create');
+  const [mode, setMode] = useState<Mode>("create");
 
   return (
     <CreatorContext.Provider value={{ mode, setMode }}>
@@ -26,7 +26,7 @@ export const CreatorProvider: React.FC<{ children: ReactNode }> = ({
 export const useCreator = (): CreatorContextProps => {
   const context = useContext(CreatorContext);
   if (!context) {
-    throw new Error('useCreator must be used within a CreatorProvider');
+    throw new Error("useCreator must be used within a CreatorProvider");
   }
   return context;
 };
