@@ -59,7 +59,7 @@ export default function HueVault() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <>
       <h1 className="text-4xl font-bold mb-8 text-center">HueVault</h1>
       {Object.entries(colorCategories).map(([category, colors]) => (
         <div key={category} className="mb-8">
@@ -88,7 +88,7 @@ export default function HueVault() {
           </div>
         </div>
       ))}
-    </div>
+    </>
   );
 }
 

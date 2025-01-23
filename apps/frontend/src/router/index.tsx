@@ -1,3 +1,4 @@
+import { Page } from "@/components/custom/Page";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router";
 
@@ -11,7 +12,9 @@ export const router = createBrowserRouter([
     path: "/huevault",
     element: (
       <Suspense>
-        <HueVault />
+        <Page>
+          <HueVault />
+        </Page>
       </Suspense>
     ),
   },
