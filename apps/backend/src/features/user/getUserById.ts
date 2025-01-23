@@ -2,7 +2,7 @@ import { supabase } from "../../config/supabase";
 
 export async function getUserById({ userId }: Readonly<{ userId: string }>) {
   const { data: users, error } = await supabase
-    .from("users")
+    .from("USERS")
     .select("*")
     .eq("id", userId)
     .single();

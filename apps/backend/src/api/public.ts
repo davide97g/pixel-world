@@ -17,7 +17,7 @@ export const addPublicRoutes = (app: Express) => {
       const createdUser = await createUser(uid, email);
       if (createdUser.isError)
         return res.status(400).send({ message: createdUser.message });
-      return res.status(200).send({
+      return res.status(201).send({
         message: createdUser.message,
       });
     } catch (err) {

@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import "./config/supabase";
+import './config';
 
 import { addPublicRoutes } from "./api/public";
 

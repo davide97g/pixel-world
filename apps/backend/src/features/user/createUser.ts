@@ -1,36 +1,32 @@
 import { supabase } from "../../config/supabase";
-import { generateRandomColor } from "../color/generateRandomColor";
+import { assignToTeam } from "../color/assignToTeam";
+import { generateRandomColorForUser } from "../color/generateRandomColor";
 
 export async function createUser(userId: string, email: string) {
   const { data: user } = await supabase
-    .from("users")
+    .from("USERS")
     .select("*")
-    .eq("email", email) // TODO: use email beacuse a new is created at the registration
+    .eq("email", email)
     .single();
 
   if (user) return { isError: true, message: "User already exists" };
 
-  const selectColorHex = await supabase.from("users").select("color_hex_id");
+  const randomColor = await generateRandomColorForUser();
+  if (!randomColor) throw new Error("Failed to generate random color");
 
-  if (selectColorHex.error !== null)
-    throw new Error(selectColorHex.error.message);
+  const teamColor = await assignToTeam();
+  if (!teamColor.id) throw new Error("Failed to assign team color");
 
-  const alreadyGeneratedIds = selectColorHex.data.map(
-    (color) => color.color_hex_id as string,
-  );
-
-  const randomColor = generateRandomColor(alreadyGeneratedIds);
-
-  const upsertUser = await supabase.from("users").upsert({
+  const upsertUser = await supabase.from("USERS").upsert({
     ...(user ?? {}),
     id: userId,
-    ...{ email, color_hex_id: randomColor },
+    ...{ email, color_hex_id: randomColor.id, team_color_id: teamColor.id },
   });
 
   if (upsertUser.error !== null) throw new Error(upsertUser.error.message);
 
   return {
     isError: false,
-    message: `Registered ${userId} with color: ${randomColor}`,
+    message: `Registered ${userId} with color: ${randomColor.id}`,
   };
 }

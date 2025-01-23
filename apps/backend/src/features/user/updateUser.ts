@@ -9,7 +9,7 @@ export async function updateUser(
   data: { color_hex_id: string; email: string },
 ) {
   const { data: user } = await supabase
-    .from("users")
+    .from("USERS")
     .select("*")
     .eq("email", data.email) // TODO: use email beacuse a new is created at the registration
     .single();
@@ -17,7 +17,7 @@ export async function updateUser(
   if (user) return { message: "User already exists" };
 
   const { error } = await supabase
-    .from("users")
+    .from("USERS")
     .upsert({ ...(user ?? {}), id: userId, ...data });
 
   if (error !== null) {

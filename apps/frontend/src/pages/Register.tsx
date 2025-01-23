@@ -23,7 +23,7 @@ export default function RegisterPage() {
 
   const navigate = useNavigate();
 
-  const { mutateAsync, isPending } = useCreateUser();
+  const createUser = useCreateUser();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,10 +58,11 @@ export default function RegisterPage() {
         return res;
       })
       .then((res) => {
-        mutateAsync({
-          uid: res.data.user?.id ?? "",
-          email: res.data.user?.email ?? "",
-        })
+        createUser
+          .mutateAsync({
+            uid: res.data.user?.id ?? "",
+            email: res.data.user?.email ?? "",
+          })
           .then(() => {
             console.log("User created successfully");
             navigate("/login");
@@ -82,7 +83,7 @@ export default function RegisterPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {isPending && <Loader />}
+          {createUser.isPending && <Loader />}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>

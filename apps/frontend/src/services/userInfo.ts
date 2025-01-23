@@ -20,6 +20,7 @@ export async function getUserInfo({ access_token }: { access_token?: string }) {
         id: user.id,
         email: user.email,
         colorId: user.color_hex_id,
+        teamColorId: user.team_color_id,
       } as IUser;
     });
 
