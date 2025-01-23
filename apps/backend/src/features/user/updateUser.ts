@@ -11,7 +11,7 @@ export async function updateUser(
   const { data: user } = await supabase
     .from("users")
     .select("*")
-    .eq("id", userId)
+    .eq("email", data.email) // TODO: use email beacuse a new is created at the registration
     .single();
 
   if (user) return { message: "User already exists" };

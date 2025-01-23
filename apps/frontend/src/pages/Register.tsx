@@ -9,13 +9,20 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useCreateUser } from "@/hooks/useCreateUser";
+import { AUTH } from "@/services/auth";
 import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  const { mutateAsync } = useCreateUser();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,14 +48,27 @@ export default function RegisterPage() {
       return;
     }
 
-    // Simulate API call for registration
-    setTimeout(() => {
-      console.log("Registering user:", { email, password });
-      setIsLoading(false);
-      // Here you would typically handle the registration logic
-      // For example, make an API call to create the user account
-      // and then redirect to a login page or directly log the user in
-    }, 2000);
+    AUTH.register({ email, password })
+      .then((res) => {
+        if (res.error) {
+          setError(res.error.message);
+          setIsLoading(false);
+        }
+        return res;
+      })
+      .then((res) => {
+        mutateAsync({
+          uid: res.data.user?.id ?? "",
+          email: res.data.user?.email ?? "",
+        })
+          .then(() => {
+            console.log("User created successfully");
+            navigate("/login");
+          })
+          .catch((error) => console.error(error));
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
   };
 
   return (

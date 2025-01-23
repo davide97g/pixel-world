@@ -12,12 +12,14 @@ export const addPublicRoutes = (app: Express) => {
   });
 
   app.post("/user", async (req: Request, res: Response) => {
-    const user = await getUserInfoFromToken(req);
-    if (!user?.id) return res.status(401).send({ message: "Unauthorized" });
+    const { uid, email } = req.body;
+
+    // const user = await getUserInfoFromToken(req);
+    // if (!user?.id) return res.status(401).send({ message: "Unauthorized" });
     const colorHexId = await generateColorForNewUser();
-    const updatedUser = await updateUser(user.id, {
+    const updatedUser = await updateUser(uid, {
       color_hex_id: colorHexId,
-      email: user.email ?? "",
+      email: email ?? "",
     });
 
     if ((updatedUser as UpdateUserError).message === "User already exists")
@@ -27,7 +29,7 @@ export const addPublicRoutes = (app: Express) => {
       return res.status(500).send({ message: "User already exists" });
 
     return res.send({
-      message: `Registered ${user.id} with color: ${colorHexId}`,
+      message: `Registered ${uid} with color: ${colorHexId}`,
       colorHexId,
     });
   });

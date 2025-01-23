@@ -31,8 +31,23 @@ export const useAPI = () => {
     return res.user as IUser;
   };
 
+  const createUser = async ({ uid, email }: { uid: string; email: string }) => {
+    // if (!token) throw new Error("Access token is required");
+    const res = await fetch(`${BACKEND_URL}/user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ uid, email }),
+    }).then((res) => res.json());
+
+    if (res.error) throw new Error(res.error);
+    return res.user as IUser;
+  };
+
   return {
     getServerInfo,
     getUser,
+    createUser,
   };
 };
