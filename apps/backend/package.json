@@ -1,6 +1,6 @@
 {
   "name": "pxel-server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "src/app.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@pixel-world/types": "0.1.0",
+    "@pixel-world/types": "0.1.1",
     "@supabase/supabase-js": "^2.47.16",
     "cors": "^2.8.5",
     "dayjs": "^1.11.11",

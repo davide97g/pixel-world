@@ -32,7 +32,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
         setSession(session ?? undefined);
         if (session)
           return getUserInfo({ access_token: session.access_token }).then(
-            (res) => setUser(res)
+            (res) => setUser(res),
           );
       })
       .finally(() => setLoading(false));
@@ -47,7 +47,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
       isServerReady: serverInfo.isSuccess,
       loading,
     }),
-    [loading, serverInfo.isSuccess, session, user]
+    [loading, serverInfo.isSuccess, session, user],
   );
 
   return (

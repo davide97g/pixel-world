@@ -10,8 +10,10 @@ const allowedOrigins = ["http://localhost:8080", "https://pxel.world"];
 app.use(
   cors({
     origin: allowedOrigins,
-  })
+  }),
 );
+
+app.use(express.json());
 
 const port = process.env.PORT;
 
