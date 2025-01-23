@@ -13,6 +13,8 @@ app.use(
   }),
 );
 
+app.use(express.json());
+
 const port = process.env.PORT;
 
 // **** PUBLIC ****

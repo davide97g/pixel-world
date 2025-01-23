@@ -7,6 +7,18 @@ export const AUTH = {
       password,
     });
   },
+  register: async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    return await supabase.auth.signUp({
+      email,
+      password,
+    });
+  },
   logout: async () => {
     return await supabase.auth.signOut();
   },

@@ -44,16 +44,17 @@ export default function LoginPage() {
     //   return;
     // }
 
-    AUTH.login({ email, password }).then((res) => {
-      if (res.error) {
-        setError(res.error.message);
-        setIsLoading(false);
-      } else {
-        // Redirect to dashboard
-        console.log("Logged in successfully");
-        navigate("/me");
-      }
-    });
+    AUTH.login({ email, password })
+      .then((res) => {
+        if (res.error) {
+          setError(res.error.message);
+          setIsLoading(false);
+        } else {
+          console.log("Logged in successfully");
+          navigate("/me");
+        }
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
