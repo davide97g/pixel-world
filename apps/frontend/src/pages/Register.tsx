@@ -1,3 +1,4 @@
+import { Loader } from "@/components/custom/Loader";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,7 +23,7 @@ export default function RegisterPage() {
 
   const navigate = useNavigate();
 
-  const { mutateAsync } = useCreateUser();
+  const { mutateAsync, isPending } = useCreateUser();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,6 +82,7 @@ export default function RegisterPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {isPending && <Loader />}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
