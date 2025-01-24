@@ -6,7 +6,6 @@ export default function User() {
   const { isAdmin, user } = useAuth();
   const navigate = useNavigate();
 
-  console.info(user);
   return (
     <div className="flex flex-col items-center gap-2">
       <Button onClick={() => navigate("/")}>{user?.email}</Button>

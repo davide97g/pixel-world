@@ -5,4 +5,5 @@ export interface IUser {
   email: string;
   color?: IColor;
   colorId: string;
+  teamColorId: string;
 }

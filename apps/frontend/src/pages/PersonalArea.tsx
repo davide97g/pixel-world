@@ -33,9 +33,25 @@ export default function PersonalArea() {
               <h2 className="text-lg font-semibold">Your Email</h2>
               <p className="text-gray-600">{user?.email}</p>
             </div>
-            <div>
-              <h2 className="text-lg font-semibold">Your Color ID</h2>
-              <p className="text-gray-600">{user?.colorId}</p>
+            <div className="flex flex-row justify-between items-center">
+              <div className="flex items-center justify-between gap-2">
+                <h2 className="text-lg font-semibold">Your Color ID</h2>
+                <p className="text-gray-600">{user?.colorId}</p>
+              </div>
+              <div
+                className="w-12 h-12 rounded-full"
+                style={{ backgroundColor: user?.colorId }}
+              ></div>
+            </div>
+            <div className="flex flex-row justify-between items-center">
+              <div className="flex items-center justify-between gap-2">
+                <h2 className="text-lg font-semibold">Your Team ID</h2>
+                <p className="text-gray-600">{user?.teamColorId}</p>
+              </div>
+              <div
+                className="w-12 h-12 rounded-full"
+                style={{ backgroundColor: user?.teamColorId }}
+              ></div>
             </div>
             <Button
               onClick={handleLogout}

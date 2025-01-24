@@ -1,36 +1,34 @@
-import { supabase } from "../../config/supabase";
-import { generateRandomColor } from "../color/generateRandomColor";
+import { sql } from "../../config/database";
+import { assignToTeam } from "../color/assignToTeam";
+import { generateRandomColorForUser } from "../color/generateRandomColor";
 
 export async function createUser(userId: string, email: string) {
-  const { data: user } = await supabase
-    .from("users")
-    .select("*")
-    .eq("email", email) // TODO: use email beacuse a new is created at the registration
-    .single();
+  try {
+    const user: {
+      uid: string;
+      email: string;
+      color_hex_id: string;
+      team_color_id: string;
+    }[] = await sql`SELECT * FROM public."USERS" WHERE email = ${email};`;
+    console.log({ user });
 
-  if (user) return { isError: true, message: "User already exists" };
+    if (user.length > 0)
+      return { isError: true, message: "User already exists" };
 
-  const selectColorHex = await supabase.from("users").select("color_hex_id");
+    const randomColor = await generateRandomColorForUser();
+    if (!randomColor) throw new Error("Failed to generate random color");
 
-  if (selectColorHex.error !== null)
-    throw new Error(selectColorHex.error.message);
+    const teamColor = await assignToTeam();
+    if (!teamColor.id) throw new Error("Failed to assign team color");
 
-  const alreadyGeneratedIds = selectColorHex.data.map(
-    (color) => color.color_hex_id as string,
-  );
+    await sql`INSERT INTO public."USERS" (id, email, color_hex_id, team_color_id) VALUES (${userId}, ${email}, ${randomColor.id}, ${teamColor.id});`;
 
-  const randomColor = generateRandomColor(alreadyGeneratedIds);
-
-  const upsertUser = await supabase.from("users").upsert({
-    ...(user ?? {}),
-    id: userId,
-    ...{ email, color_hex_id: randomColor },
-  });
-
-  if (upsertUser.error !== null) throw new Error(upsertUser.error.message);
-
-  return {
-    isError: false,
-    message: `Registered ${userId} with color: ${randomColor}`,
-  };
+    return {
+      isError: false,
+      message: `Registered ${userId} with color: ${randomColor.id}`,
+    };
+  } catch (error) {
+    console.log(error);
+    return { isError: true, message: "Failed to create user" };
+  }
 }
