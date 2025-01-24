@@ -1,15 +1,14 @@
-import { supabase } from "../../config/supabase";
+import { User } from "@supabase/supabase-js";
+import { sql } from "../../config/database";
 
 export async function getUserById({ userId }: Readonly<{ userId: string }>) {
-  const { data: users, error } = await supabase
-    .from("USERS")
-    .select("*")
-    .eq("id", userId)
-    .single();
+  try {
+    const user: User[] =
+      await sql`SELECT * FROM public."USERS" WHERE id = ${userId};`;
 
-  if (error) {
-    console.error(error);
+    return user[0];
+  } catch (error) {
+    console.log(error);
     return null;
   }
-  return users;
 }

@@ -1,5 +1,4 @@
 import { sql } from "../../config/database";
-import { supabase } from "../../config/supabase";
 
 function extractRandomColorFromUnchosen(alreadyChosenColors: string[]) {
   if (alreadyChosenColors.length !== 0)
@@ -8,22 +7,26 @@ function extractRandomColorFromUnchosen(alreadyChosenColors: string[]) {
 }
 
 export async function generateRandomColorForUser() {
-  const { data, error } = await supabase.from("USERS").select("color_hex_id");
-  if (error) {
+  try {
+    const data: { color_hex_id: string }[] =
+      await sql`SELECT color_hex_id FROM public."USERS";`;
+    console.log(data);
+
+    const colors = data.map((user) => user.color_hex_id);
+
+    const notChosenColorsQuery = await extractRandomColorFromUnchosen(colors);
+
+    if (!notChosenColorsQuery.length) {
+      console.log(notChosenColorsQuery);
+      return null;
+    }
+
+    return notChosenColorsQuery[0] as {
+      id: string;
+      name: string;
+    };
+  } catch (error) {
     console.log(error);
     return null;
   }
-  const colors = data.map((user) => user.color_hex_id);
-
-  const notChosenColorsQuery = await extractRandomColorFromUnchosen(colors);
-
-  if (!notChosenColorsQuery.length) {
-    console.log(notChosenColorsQuery);
-    return null;
-  }
-
-  return notChosenColorsQuery[0] as {
-    id: string;
-    name: string;
-  };
 }

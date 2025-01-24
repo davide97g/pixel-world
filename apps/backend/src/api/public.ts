@@ -1,6 +1,7 @@
 import { type Express, type Request, type Response } from "express";
 
 import { version } from "../../package.json";
+import { generateRandomColorForUser } from "../features/color/generateRandomColor";
 import { createUser } from "../features/user/createUser";
 import { getUserById } from "../features/user/getUserById";
 import { getUserInfoFromToken } from "../middleware/utils";
@@ -27,6 +28,7 @@ export const addPublicRoutes = (app: Express) => {
   });
 
   app.get("/user", async (req: Request, res: Response) => {
+    generateRandomColorForUser();
     const user = await getUserInfoFromToken(req);
     if (!user?.id) return res.status(401).send({ message: "Unauthorized" });
     console.log("user", user);
