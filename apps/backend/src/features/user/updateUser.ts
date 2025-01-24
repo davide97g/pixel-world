@@ -6,6 +6,7 @@ export type UpdateUserError = {
   message: "User already exists" | "Failed to update user";
 };
 
+// TODO: Unsed function
 export async function updateUser(
   userId: string,
   data: { color_hex_id: string; email: string },
