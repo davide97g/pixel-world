@@ -10,8 +10,10 @@ export async function createUser(userId: string, email: string) {
       color_hex_id: string;
       team_color_id: string;
     }[] = await sql`SELECT * FROM public."USERS" WHERE email = ${email};`;
+    console.log({ user });
 
-    if (user) return { isError: true, message: "User already exists" };
+    if (user.length > 0)
+      return { isError: true, message: "User already exists" };
 
     const randomColor = await generateRandomColorForUser();
     if (!randomColor) throw new Error("Failed to generate random color");
