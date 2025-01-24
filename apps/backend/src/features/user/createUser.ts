@@ -1,32 +1,34 @@
-import { supabase } from "../../config/supabase";
+import { sql } from "../../config/database";
 import { assignToTeam } from "../color/assignToTeam";
 import { generateRandomColorForUser } from "../color/generateRandomColor";
 
 export async function createUser(userId: string, email: string) {
-  const { data: user } = await supabase
-    .from("USERS")
-    .select("*")
-    .eq("email", email)
-    .single();
+  try {
+    const user: {
+      uid: string;
+      email: string;
+      color_hex_id: string;
+      team_color_id: string;
+    }[] = await sql`SELECT * FROM public."USERS" WHERE email = ${email};`;
+    console.log({ user });
 
-  if (user) return { isError: true, message: "User already exists" };
+    if (user.length > 0)
+      return { isError: true, message: "User already exists" };
 
-  const randomColor = await generateRandomColorForUser();
-  if (!randomColor) throw new Error("Failed to generate random color");
+    const randomColor = await generateRandomColorForUser();
+    if (!randomColor) throw new Error("Failed to generate random color");
 
-  const teamColor = await assignToTeam();
-  if (!teamColor.id) throw new Error("Failed to assign team color");
+    const teamColor = await assignToTeam();
+    if (!teamColor.id) throw new Error("Failed to assign team color");
 
-  const upsertUser = await supabase.from("USERS").upsert({
-    ...(user ?? {}),
-    id: userId,
-    ...{ email, color_hex_id: randomColor.id, team_color_id: teamColor.id },
-  });
+    await sql`INSERT INTO public."USERS" (id, email, color_hex_id, team_color_id) VALUES (${userId}, ${email}, ${randomColor.id}, ${teamColor.id});`;
 
-  if (upsertUser.error !== null) throw new Error(upsertUser.error.message);
-
-  return {
-    isError: false,
-    message: `Registered ${userId} with color: ${randomColor.id}`,
-  };
+    return {
+      isError: false,
+      message: `Registered ${userId} with color: ${randomColor.id}`,
+    };
+  } catch (error) {
+    console.log(error);
+    return { isError: true, message: "Failed to create user" };
+  }
 }
