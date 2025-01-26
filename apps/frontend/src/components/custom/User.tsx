@@ -8,7 +8,7 @@ export default function User() {
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <Button onClick={() => navigate("/")}>{user?.email}</Button>
+      <Button onClick={() => navigate("/me")}>{user?.email}</Button>
       {isAdmin && <p className="text-sm">Admin</p>}
     </div>
   );

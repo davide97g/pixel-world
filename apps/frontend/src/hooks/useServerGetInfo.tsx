@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAPI } from "../services/api";
+import { useAPI } from "./useAPI";
 
 export function useServerGetInfo() {
   const { getServerInfo } = useAPI();

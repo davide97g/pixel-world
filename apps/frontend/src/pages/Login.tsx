@@ -38,12 +38,6 @@ export default function LoginPage() {
       return;
     }
 
-    // if (password.length < 8) {
-    //   setError("Password must be at least 8 characters long.");
-    //   setIsLoading(false);
-    //   return;
-    // }
-
     AUTH.login({ email, password })
       .then((res) => {
         if (res.error) {
