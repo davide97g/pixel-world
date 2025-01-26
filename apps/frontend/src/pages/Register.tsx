@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/context/AuthProvider";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/useToast";
 import { AuthenticationService } from "@/services/AuthenticationService";
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
