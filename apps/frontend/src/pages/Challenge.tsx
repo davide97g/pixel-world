@@ -34,10 +34,17 @@ export default function Challenge() {
         {getVotes.data?.votes.map((vote) => (
           <div
             key={vote.created_at}
-            className="aspect-square rounded-lg shadow-md flex items-center justify-center"
-            style={{ backgroundColor: vote.color_id }}
+            className="flex-col gap-2 aspect-square rounded-lg shadow-md flex items-center justify-center"
           >
-            <span className="bg-white bg-opacity-75 px-2 py-1 rounded text-sm">
+            <div
+              style={{
+                backgroundColor: vote.shade_id,
+                height: 100,
+                width: 100,
+                borderRadius: "0.5rem",
+              }}
+            ></div>
+            <span className="bg-white bg-opacity-75 px-2 py-1 rounded text-xs">
               {vote.user_id}
             </span>
           </div>

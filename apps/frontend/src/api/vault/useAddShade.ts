@@ -1,12 +1,11 @@
 import { api } from "@/config/client";
 import { useMutation } from "@tanstack/react-query";
 
-export const useAddVote = () => {
+export const useAddShadeToVault = () => {
   return useMutation({
-    mutationFn: ({ teamId, shadeId }: { teamId: string; shadeId: string }) =>
+    mutationFn: ({ shadeId }: { shadeId: string }) =>
       api
-        .post("/vote", {
-          teamId,
+        .post("/vault", {
           shadeId,
         })
         .then((res) => res.data),
