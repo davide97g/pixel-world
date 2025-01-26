@@ -40,7 +40,8 @@ export const useAPI = () => {
       body: JSON.stringify({ uid, email }),
     }).then((res) => {
       if (res.status === 201) return res.json();
-      throw new Error("Failed to create user");
+      if (res.status === 400) throw new Error("User already exists");
+      if (res.status === 500) throw new Error("Failed to create user");
     });
   };
 

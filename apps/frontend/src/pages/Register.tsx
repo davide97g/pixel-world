@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 import { useCreateUser } from "@/hooks/useCreateUser";
 import { AUTH } from "@/services/auth";
 import { useState, type FormEvent } from "react";
@@ -22,6 +23,7 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const createUser = useCreateUser();
 
@@ -58,7 +60,7 @@ export default function RegisterPage() {
         return res;
       })
       .then((res) => {
-        createUser
+        return createUser
           .mutateAsync({
             uid: res.data.user?.id ?? "",
             email: res.data.user?.email ?? "",
@@ -67,7 +69,14 @@ export default function RegisterPage() {
             console.log("User created successfully");
             navigate("/login");
           })
-          .catch((error) => console.error(error));
+          .catch((error) => {
+            console.log({ error });
+
+            toast({
+              title: error.message,
+            });
+            console.error(error);
+          });
       })
       .catch((error) => console.error(error))
       .finally(() => setIsLoading(false));
