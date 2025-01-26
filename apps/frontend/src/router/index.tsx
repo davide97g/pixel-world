@@ -6,6 +6,7 @@ const Login = lazy(() => import("../pages/Login"));
 const Register = lazy(() => import("../pages/Register"));
 const PersonalArea = lazy(() => import("../pages/PersonalArea"));
 const Vote = lazy(() => import("../pages/Vote"));
+const Challenge = lazy(() => import("../pages/Challenge"));
 const HueVault = lazy(() => import("../pages/HueVault"));
 
 export const router = createBrowserRouter([
@@ -46,6 +47,16 @@ export const router = createBrowserRouter([
       <Suspense>
         <Page>
           <Vote />
+        </Page>
+      </Suspense>
+    ),
+  },
+  {
+    path: "/challenge",
+    element: (
+      <Suspense>
+        <Page>
+          <Challenge />
         </Page>
       </Suspense>
     ),

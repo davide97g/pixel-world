@@ -1,16 +1,29 @@
 import { type Express, type Request, type Response } from "express";
 
 import { version } from "../../package.json";
-import { generateRandomColorForUser } from "../features/color/generateRandomColor";
 import { createUser } from "../features/user/createUser";
+import { getTeams } from "../features/user/getTeams";
 import { getUserById } from "../features/user/getUserById";
 import { getUserColors } from "../features/user/getUserColors";
+import { getVotes } from "../features/user/getVotes";
 import { addUserVote } from "../features/votes/addUserVote";
 import { getUserInfoFromToken } from "../middleware/utils";
 
 export const addPublicRoutes = (app: Express) => {
   app.get("/", (_: Request, res: Response) => {
     res.send({ message: "Pxel Server", version });
+  });
+
+  app.get("/votes", async (req: Request, res: Response) => {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 100;
+      const votes = await getVotes({ limit });
+      if (!votes) return res.status(404).send({ message: "Votes not found" });
+      res.status(200).send(votes);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({ message: "Failed to retrieve votes" });
+    }
   });
 
   app.post("/user", async (req: Request, res: Response) => {
@@ -30,7 +43,6 @@ export const addPublicRoutes = (app: Express) => {
   });
 
   app.get("/user", async (req: Request, res: Response) => {
-    generateRandomColorForUser();
     const user = await getUserInfoFromToken(req);
     if (!user?.id) return res.status(401).send({ message: "Unauthorized" });
 
@@ -40,6 +52,20 @@ export const addPublicRoutes = (app: Express) => {
     res.send({
       user: databaseUser,
     });
+  });
+
+  app.get("/teams", async (req: Request, res: Response) => {
+    const user = await getUserInfoFromToken(req);
+    if (!user?.id) return res.status(401).send({ message: "Unauthorized" });
+
+    try {
+      const teams = await getTeams();
+      if (!teams) return res.status(404).send({ message: "Teams not found" });
+      res.status(200).send(teams);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).send({ message: "Failed to retrieve teams" });
+    }
   });
 
   app.get("/user/colors", async (req: Request, res: Response) => {
