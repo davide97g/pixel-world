@@ -1,5 +1,16 @@
 # pxel-server
 
+## 1.2.0
+
+### Minor Changes
+
+- 894e805: Swagger endpoints + shades table init
+
+### Patch Changes
+
+- Updated dependencies [894e805]
+  - @pixel-world/types@0.3.0
+
 ## 1.1.0
 
 ### Minor Changes
