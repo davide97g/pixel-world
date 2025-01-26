@@ -7,14 +7,10 @@ export const useAPI = () => {
   const { session } = useAuth();
   const access_token = session?.access_token;
 
-  const getServerInfo = () => {
+  const getServerInfo = async () => {
     return fetch(`${BACKEND_URL}`)
       .then((res) => res.json())
-      .then((res) => res as { version: string })
-      .catch((err) => {
-        console.info(err);
-        return { version: "unknown" };
-      });
+      .then((res) => res as { version: string });
   };
 
   const getUser = async () => {
