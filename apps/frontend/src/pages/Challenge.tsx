@@ -1,6 +1,6 @@
+import { useGetTeams } from "@/api/useGetTeams";
+import { useGetVotes } from "@/api/useGetVotes";
 import { Button } from "@/components/ui/button";
-import { useGetTeams } from "@/hooks/useGetTeams";
-import { useGetVotes } from "@/hooks/useGetVotes";
 
 export default function Challenge() {
   const getVotes = useGetVotes();

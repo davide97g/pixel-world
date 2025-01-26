@@ -1,3 +1,4 @@
+import { useCreateUser } from "@/api/useCreateUser";
 import { Loader } from "@/components/custom/Loader";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,10 +11,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/context/AuthProvider";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/useAuth";
-import { useCreateUser } from "@/hooks/useCreateUser";
-import { AUTH } from "@/services/auth";
+import { AuthenticationService } from "@/services/AuthenticationService";
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 
@@ -58,7 +58,7 @@ export default function RegisterPage() {
       return;
     }
 
-    AUTH.register({ email, password })
+    AuthenticationService.register({ email, password })
       .then((res) => {
         if (res.error) {
           setError(res.error.message);

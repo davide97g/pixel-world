@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/hooks/useAuth";
-import { AUTH } from "@/services/auth";
+import { useAuth } from "@/context/AuthProvider";
+import { AuthenticationService } from "@/services/AuthenticationService";
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 
@@ -44,7 +44,7 @@ export default function LoginPage() {
       return;
     }
 
-    AUTH.login({ email, password })
+    AuthenticationService.login({ email, password })
       .then((res) => {
         if (res.error) {
           setError(res.error.message);

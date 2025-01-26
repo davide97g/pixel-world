@@ -1,6 +1,6 @@
+import { useAuth } from "@/context/AuthProvider";
 import { useAPI } from "@/hooks/useAPI";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "./useAuth";
 
 export const useGetUser = () => {
   const { user } = useAuth();

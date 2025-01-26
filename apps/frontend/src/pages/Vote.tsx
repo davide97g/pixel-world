@@ -1,9 +1,9 @@
+import { useAddVote } from "@/api/useAddVote";
+import { useGetUserColors } from "@/api/useGetUserColors";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAddVote } from "@/hooks/useAddVote";
-import { useGetUserColors } from "@/hooks/useGetUserColors";
+import { useAuth } from "@/context/AuthProvider";
 import { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
 
 export default function Vote() {
   const { user, loading } = useAuth();

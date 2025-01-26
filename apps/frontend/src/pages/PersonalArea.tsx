@@ -3,8 +3,9 @@ import { useNavigate } from "react-router";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAuth } from "../hooks/useAuth";
-import { AUTH } from "../services/auth";
+
+import { useAuth } from "@/context/AuthProvider";
+import { AuthenticationService } from "../services/AuthenticationService";
 
 export default function PersonalArea() {
   const { session, user, loading } = useAuth();
@@ -16,7 +17,7 @@ export default function PersonalArea() {
   }, [session, navigate]);
 
   const handleLogout = async () => {
-    AUTH.logout()
+    AuthenticationService.logout()
       .then(() => navigate("/login"))
       .catch(console.error);
   };

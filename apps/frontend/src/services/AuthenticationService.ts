@@ -1,6 +1,6 @@
 import { supabase } from "../config/supabase";
 
-export const AUTH = {
+export const AuthenticationService = {
   login: async ({ email, password }: { email: string; password: string }) =>
     supabase.auth.signInWithPassword({
       email,

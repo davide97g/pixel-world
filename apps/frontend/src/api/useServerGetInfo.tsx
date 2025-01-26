@@ -1,5 +1,5 @@
+import { useAPI } from "@/hooks/useAPI";
 import { useQuery } from "@tanstack/react-query";
-import { useAPI } from "./useAPI";
 
 export function useServerGetInfo() {
   const { getServerInfo } = useAPI();

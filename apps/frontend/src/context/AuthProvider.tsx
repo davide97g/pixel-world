@@ -1,9 +1,17 @@
-import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { IUser } from "@pixel-world/types";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "../config/supabase";
-import { useServerGetInfo } from "../hooks/useServerGetInfo";
+
+import { useServerGetInfo } from "@/api/useServerGetInfo";
 import { getUserInfo } from "../services/userInfo";
 
 interface AuthContext {
@@ -15,11 +23,11 @@ interface AuthContext {
   loading: boolean;
 }
 
-export const AuthContext = createContext({
+const AuthContext = createContext({
   session: undefined,
 } as AuthContext);
 
-export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
+function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<Session>();
   const [user, setUser] = useState<IUser>();
@@ -60,3 +68,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
     </AuthContext.Provider>
   );
 }
+
+const useAuth = () => useContext(AuthContext);
+
+export { AuthProvider, useAuth };

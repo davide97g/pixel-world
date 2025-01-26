@@ -1,5 +1,5 @@
-import { useAPI } from "@/hooks/useAPI";
 import { useMutation } from "@tanstack/react-query";
+import { useAPI } from "../hooks/useAPI";
 
 export const useAddVote = () => {
   const { vote } = useAPI();
