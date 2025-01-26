@@ -8,6 +8,7 @@ const PersonalArea = lazy(() => import("../pages/PersonalArea"));
 const Vote = lazy(() => import("../pages/Vote"));
 const Challenge = lazy(() => import("../pages/Challenge"));
 const Vault = lazy(() => import("../pages/HueVault"));
+const Shades = lazy(() => import("../pages/Shades"));
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +17,16 @@ export const router = createBrowserRouter([
       <Suspense>
         <AuthenticatedPage>
           <Vault />
+        </AuthenticatedPage>
+      </Suspense>
+    ),
+  },
+  {
+    path: "/shades",
+    element: (
+      <Suspense>
+        <AuthenticatedPage>
+          <Shades />
         </AuthenticatedPage>
       </Suspense>
     ),

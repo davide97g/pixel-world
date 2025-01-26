@@ -94,15 +94,15 @@ export const createVoteController = (app: Express) => {
       const user = await getUserInfoFromToken(req);
       if (!user?.id) return res.status(401).send({ message: "Unauthorized" });
 
-      const { teamId, colorId } = req.body;
+      const { teamId, shadeId } = req.body;
 
-      if (!teamId || !colorId)
+      if (!teamId || !shadeId)
         return res.status(400).send({ message: "Invalid request" });
 
       const addVoteResponse = await addUserVote({
         userId: user.id,
         teamId,
-        colorId,
+        shadeId,
       });
       return res
         .status(addVoteResponse.status)
