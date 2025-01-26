@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "pixel-world",
   "private": true,
   "scripts": {
     "build": "turbo build",

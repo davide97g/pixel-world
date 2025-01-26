@@ -1,17 +1,19 @@
 import { type Express, type Request, type Response } from "express";
 
 import { version } from "../../package.json";
+import { getTeams } from "../features/teams/getTeams";
 import { createUser } from "../features/user/createUser";
-import { getTeams } from "../features/user/getTeams";
 import { getUserById } from "../features/user/getUserById";
 import { getUserColors } from "../features/user/getUserColors";
-import { getVotes } from "../features/user/getVotes";
 import { addUserVote } from "../features/votes/addUserVote";
+import { getVotes } from "../features/votes/getVotes";
 import { getUserInfoFromToken } from "../middleware/utils";
+
+const isDevelopment = process.env.MODE === "DEVELOPMENT";
 
 export const addPublicRoutes = (app: Express) => {
   app.get("/", (_: Request, res: Response) => {
-    res.send({ message: "Pxel Server", version });
+    res.send({ message: "Pxel Server", dev: isDevelopment, version });
   });
 
   app.get("/votes", async (req: Request, res: Response) => {
@@ -49,9 +51,7 @@ export const addPublicRoutes = (app: Express) => {
     const databaseUser = await getUserById({ userId: user.id });
     if (!databaseUser)
       return res.status(404).send({ message: "User not found" });
-    res.send({
-      user: databaseUser,
-    });
+    res.send(databaseUser);
   });
 
   app.get("/teams", async (req: Request, res: Response) => {

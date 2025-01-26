@@ -1,5 +1,18 @@
 # pxel-server
 
+## 1.1.0
+
+### Minor Changes
+
+- 9267d88: User registration
+- ce2bd92: Refactor API: axios + new foldering
+
+### Patch Changes
+
+- Updated dependencies [9267d88]
+- Updated dependencies [ce2bd92]
+  - @pixel-world/types@0.2.0
+
 ## 1.0.3
 
 ### Patch Changes

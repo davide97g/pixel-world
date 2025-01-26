@@ -1,11 +1,14 @@
-import { useAPI } from "@/hooks/useAPI";
+import { api } from "@/config/client";
 import { useMutation } from "@tanstack/react-query";
 
 export const useAddVote = () => {
-  const { vote } = useAPI();
-
   return useMutation({
     mutationFn: ({ teamId, colorId }: { teamId: string; colorId: string }) =>
-      vote({ teamId, colorId }),
+      api
+        .post("/vote", {
+          teamId,
+          colorId,
+        })
+        .then((res) => res.data),
   });
 };

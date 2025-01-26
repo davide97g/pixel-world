@@ -1,4 +1,4 @@
-import { Page } from "@/components/custom/Page";
+import { AuthenticatedPage } from "@/components/custom/AuthenticatedPage";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router";
 
@@ -7,16 +7,16 @@ const Register = lazy(() => import("../pages/Register"));
 const PersonalArea = lazy(() => import("../pages/PersonalArea"));
 const Vote = lazy(() => import("../pages/Vote"));
 const Challenge = lazy(() => import("../pages/Challenge"));
-const HueVault = lazy(() => import("../pages/HueVault"));
+const Vault = lazy(() => import("../pages/HueVault"));
 
 export const router = createBrowserRouter([
   {
-    path: "/huevault",
+    path: "/vault",
     element: (
       <Suspense>
-        <Page>
-          <HueVault />
-        </Page>
+        <AuthenticatedPage>
+          <Vault />
+        </AuthenticatedPage>
       </Suspense>
     ),
   },
@@ -24,9 +24,7 @@ export const router = createBrowserRouter([
     path: "/register",
     element: (
       <Suspense>
-        <Page>
-          <Register />
-        </Page>
+        <Register />
       </Suspense>
     ),
     errorElement: <div>404 Not Found</div>,
@@ -35,9 +33,7 @@ export const router = createBrowserRouter([
     path: "/login",
     element: (
       <Suspense>
-        <Page>
-          <Login />
-        </Page>
+        <Login />
       </Suspense>
     ),
   },
@@ -45,9 +41,9 @@ export const router = createBrowserRouter([
     path: "/",
     element: (
       <Suspense>
-        <Page>
+        <AuthenticatedPage>
           <Vote />
-        </Page>
+        </AuthenticatedPage>
       </Suspense>
     ),
   },
@@ -55,9 +51,9 @@ export const router = createBrowserRouter([
     path: "/challenge",
     element: (
       <Suspense>
-        <Page>
+        <AuthenticatedPage>
           <Challenge />
-        </Page>
+        </AuthenticatedPage>
       </Suspense>
     ),
   },
@@ -65,7 +61,9 @@ export const router = createBrowserRouter([
     path: "/me",
     element: (
       <Suspense>
-        <PersonalArea />
+        <AuthenticatedPage>
+          <PersonalArea />
+        </AuthenticatedPage>
       </Suspense>
     ),
   },

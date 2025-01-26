@@ -1,5 +1,15 @@
 # @pixel-world/types
 
+## 0.2.0
+
+### Minor Changes
+
+- ce2bd92: Refactor API: axios + new foldering
+
+### Patch Changes
+
+- 9267d88: User registration
+
 ## 0.1.1
 
 ### Patch Changes
