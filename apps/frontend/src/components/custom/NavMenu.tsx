@@ -29,7 +29,7 @@ const NavMenu = () => {
             </div>
           </div>
           <div className="flex-1 flex items-center justify-center">
-            <span className="font-bold text-xl">HueVault</span>
+            <span className="font-bold text-xl">Pixel World</span>
           </div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">

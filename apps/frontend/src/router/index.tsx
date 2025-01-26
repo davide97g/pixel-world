@@ -5,6 +5,8 @@ import { createBrowserRouter } from "react-router";
 const Login = lazy(() => import("../pages/Login"));
 const Register = lazy(() => import("../pages/Register"));
 const PersonalArea = lazy(() => import("../pages/PersonalArea"));
+const Vote = lazy(() => import("../pages/Vote"));
+const Challenge = lazy(() => import("../pages/Challenge"));
 const HueVault = lazy(() => import("../pages/HueVault"));
 
 export const router = createBrowserRouter([
@@ -22,7 +24,9 @@ export const router = createBrowserRouter([
     path: "/register",
     element: (
       <Suspense>
-        <Register />
+        <Page>
+          <Register />
+        </Page>
       </Suspense>
     ),
     errorElement: <div>404 Not Found</div>,
@@ -31,7 +35,9 @@ export const router = createBrowserRouter([
     path: "/login",
     element: (
       <Suspense>
-        <Login />
+        <Page>
+          <Login />
+        </Page>
       </Suspense>
     ),
   },
@@ -39,7 +45,19 @@ export const router = createBrowserRouter([
     path: "/",
     element: (
       <Suspense>
-        <PersonalArea />
+        <Page>
+          <Vote />
+        </Page>
+      </Suspense>
+    ),
+  },
+  {
+    path: "/challenge",
+    element: (
+      <Suspense>
+        <Page>
+          <Challenge />
+        </Page>
       </Suspense>
     ),
   },
