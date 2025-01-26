@@ -1,7 +1,7 @@
 {
   "name": "pixel-world-frontend",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite --mode development --open --port 8080",
