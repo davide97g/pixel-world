@@ -1,15 +1,14 @@
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/context/AuthProvider";
 import { useNavigate } from "react-router";
 import { Button } from "../ui/button";
 
 export default function User() {
-  const { isAdmin, user } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <Button onClick={() => navigate("/")}>{user?.email}</Button>
-      {isAdmin && <p className="text-sm">Admin</p>}
+      <Button onClick={() => navigate("/me")}>{user?.email}</Button>
     </div>
   );
 }

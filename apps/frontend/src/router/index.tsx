@@ -1,20 +1,22 @@
-import { Page } from "@/components/custom/Page";
+import { AuthenticatedPage } from "@/components/custom/AuthenticatedPage";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router";
 
 const Login = lazy(() => import("../pages/Login"));
 const Register = lazy(() => import("../pages/Register"));
 const PersonalArea = lazy(() => import("../pages/PersonalArea"));
-const HueVault = lazy(() => import("../pages/HueVault"));
+const Vote = lazy(() => import("../pages/Vote"));
+const Challenge = lazy(() => import("../pages/Challenge"));
+const Vault = lazy(() => import("../pages/HueVault"));
 
 export const router = createBrowserRouter([
   {
-    path: "/huevault",
+    path: "/vault",
     element: (
       <Suspense>
-        <Page>
-          <HueVault />
-        </Page>
+        <AuthenticatedPage>
+          <Vault />
+        </AuthenticatedPage>
       </Suspense>
     ),
   },
@@ -39,7 +41,19 @@ export const router = createBrowserRouter([
     path: "/",
     element: (
       <Suspense>
-        <PersonalArea />
+        <AuthenticatedPage>
+          <Vote />
+        </AuthenticatedPage>
+      </Suspense>
+    ),
+  },
+  {
+    path: "/challenge",
+    element: (
+      <Suspense>
+        <AuthenticatedPage>
+          <Challenge />
+        </AuthenticatedPage>
       </Suspense>
     ),
   },
@@ -47,7 +61,9 @@ export const router = createBrowserRouter([
     path: "/me",
     element: (
       <Suspense>
-        <PersonalArea />
+        <AuthenticatedPage>
+          <PersonalArea />
+        </AuthenticatedPage>
       </Suspense>
     ),
   },

@@ -1,3 +1,4 @@
+import { useCreateUser } from "@/api/user/useCreateUser";
 import { Loader } from "@/components/custom/Loader";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,20 +11,28 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useCreateUser } from "@/hooks/useCreateUser";
-import { AUTH } from "@/services/auth";
-import { useState, type FormEvent } from "react";
+import { useAuth } from "@/context/AuthProvider";
+import { useToast } from "@/hooks/useToast";
+import { AuthenticationService } from "@/services/AuthenticationService";
+import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 
 export default function RegisterPage() {
+  const { isLogged } = useAuth();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const createUser = useCreateUser();
+
+  useEffect(() => {
+    if (isLogged) navigate("/me");
+  }, [isLogged, navigate]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,7 +58,7 @@ export default function RegisterPage() {
       return;
     }
 
-    AUTH.register({ email, password })
+    AuthenticationService.register({ email, password })
       .then((res) => {
         if (res.error) {
           setError(res.error.message);
@@ -58,7 +67,7 @@ export default function RegisterPage() {
         return res;
       })
       .then((res) => {
-        createUser
+        return createUser
           .mutateAsync({
             uid: res.data.user?.id ?? "",
             email: res.data.user?.email ?? "",
@@ -67,7 +76,14 @@ export default function RegisterPage() {
             console.log("User created successfully");
             navigate("/login");
           })
-          .catch((error) => console.error(error));
+          .catch((error) => {
+            console.log({ error });
+
+            toast({
+              title: error.message,
+            });
+            console.error(error);
+          });
       })
       .catch((error) => console.error(error))
       .finally(() => setIsLoading(false));

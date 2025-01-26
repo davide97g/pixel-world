@@ -3,8 +3,9 @@ import { useNavigate } from "react-router";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAuth } from "../hooks/useAuth";
-import { AUTH } from "../services/auth";
+
+import { useAuth } from "@/context/AuthProvider";
+import { AuthenticationService } from "../services/AuthenticationService";
 
 export default function PersonalArea() {
   const { session, user, loading } = useAuth();
@@ -16,7 +17,7 @@ export default function PersonalArea() {
   }, [session, navigate]);
 
   const handleLogout = async () => {
-    AUTH.logout()
+    AuthenticationService.logout()
       .then(() => navigate("/login"))
       .catch(console.error);
   };
@@ -36,21 +37,21 @@ export default function PersonalArea() {
             <div className="flex flex-row justify-between items-center">
               <div className="flex items-center justify-between gap-2">
                 <h2 className="text-lg font-semibold">Your Color ID</h2>
-                <p className="text-gray-600">{user?.colorId}</p>
+                <p className="text-gray-600">{user?.color_hex_id}</p>
               </div>
               <div
                 className="w-12 h-12 rounded-full"
-                style={{ backgroundColor: user?.colorId }}
+                style={{ backgroundColor: user?.color_hex_id }}
               ></div>
             </div>
             <div className="flex flex-row justify-between items-center">
               <div className="flex items-center justify-between gap-2">
                 <h2 className="text-lg font-semibold">Your Team ID</h2>
-                <p className="text-gray-600">{user?.teamColorId}</p>
+                <p className="text-gray-600">{user?.team_color_id}</p>
               </div>
               <div
                 className="w-12 h-12 rounded-full"
-                style={{ backgroundColor: user?.teamColorId }}
+                style={{ backgroundColor: user?.team_color_id }}
               ></div>
             </div>
             <Button

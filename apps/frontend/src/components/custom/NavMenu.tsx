@@ -29,7 +29,7 @@ const NavMenu = () => {
             </div>
           </div>
           <div className="flex-1 flex items-center justify-center">
-            <span className="font-bold text-xl">HueVault</span>
+            <span className="font-bold text-xl">Pixel World</span>
           </div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
@@ -37,19 +37,19 @@ const NavMenu = () => {
                 href="/"
                 className="text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium"
               >
-                Home
+                Vote
               </a>
               <a
-                href="/colors"
+                href="/vault"
                 className="text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium"
               >
-                Colors
+                Vault
               </a>
               <a
-                href="/about"
+                href="/challenge"
                 className="text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium"
               >
-                About
+                Challenge
               </a>
             </div>
           </div>
@@ -63,19 +63,19 @@ const NavMenu = () => {
             href="/"
             className="text-gray-700 hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium"
           >
-            Home
+            Vote
           </a>
           <a
-            href="/colors"
+            href="/vault"
             className="text-gray-700 hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium"
           >
-            Colors
+            Vault
           </a>
           <a
             href="/about"
             className="text-gray-700 hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium"
           >
-            About
+            Challenge
           </a>
         </div>
       </div>

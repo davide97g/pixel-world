@@ -1,8 +1,12 @@
 export interface IColor {
-  value: string;
-  rgb: [number, number, number];
-  name?: string;
-  hsl?: [number, number, number];
-  density: number;
-  isLight: boolean;
+  id: string;
+  name: string;
+  team_color_id: string;
+  created_at: string;
+}
+
+export interface ITeamColor {
+  id: string;
+  name: string;
+  created_at: string;
 }

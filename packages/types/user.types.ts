@@ -1,9 +1,8 @@
-import { IColor } from "./color.types";
 
 export interface IUser {
-  id: string;
+  id: string; // uuid
+  created_at: string; // timestamp
   email: string;
-  color?: IColor;
-  colorId: string;
-  teamColorId: string;
+  color_hex_id: string; // hex color
+  team_color_id: string; // hex color
 }

@@ -1,9 +1,9 @@
-import { User } from "@supabase/supabase-js";
+import { IUser } from "@pixel-world/types";
 import { sql } from "../../config/database";
 
 export async function getUserById({ userId }: Readonly<{ userId: string }>) {
   try {
-    const user: User[] =
+    const user: IUser[] =
       await sql`SELECT * FROM public."USERS" WHERE id = ${userId};`;
 
     return user[0];
