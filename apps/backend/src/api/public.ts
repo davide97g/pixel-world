@@ -1,12 +1,12 @@
 import { type Express, type Request, type Response } from "express";
 
 import { version } from "../../package.json";
+import { getTeams } from "../features/teams/getTeams";
 import { createUser } from "../features/user/createUser";
-import { getTeams } from "../features/user/getTeams";
 import { getUserById } from "../features/user/getUserById";
 import { getUserColors } from "../features/user/getUserColors";
-import { getVotes } from "../features/user/getVotes";
 import { addUserVote } from "../features/votes/addUserVote";
+import { getVotes } from "../features/votes/getVotes";
 import { getUserInfoFromToken } from "../middleware/utils";
 
 export const addPublicRoutes = (app: Express) => {
