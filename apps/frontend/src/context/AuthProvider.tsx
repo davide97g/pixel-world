@@ -26,7 +26,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const serverInfo = useServerGetInfo();
 
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data } = supabase.auth.onAuthStateChange(async (_, session) => {
       setSession(session ?? undefined);
       try {
         if (session && !user)
