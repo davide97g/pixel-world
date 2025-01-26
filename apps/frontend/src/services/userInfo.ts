@@ -4,7 +4,7 @@ const BACKEND_URL = import.meta.env.VITE_SERVER_URL;
 
 export async function getUserInfo({ access_token }: { access_token?: string }) {
   if (!access_token) throw new Error("Access token is required");
-  console.log("access_token", access_token);
+
   const res = await fetch(`${BACKEND_URL}/user`, {
     method: "GET",
     headers: {

@@ -37,19 +37,19 @@ const NavMenu = () => {
                 href="/"
                 className="text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium"
               >
-                Home
+                Vote
               </a>
               <a
-                href="/colors"
+                href="/vault"
                 className="text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium"
               >
-                Colors
+                Vault
               </a>
               <a
-                href="/about"
+                href="/challenge"
                 className="text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium"
               >
-                About
+                Challenge
               </a>
             </div>
           </div>
@@ -63,19 +63,19 @@ const NavMenu = () => {
             href="/"
             className="text-gray-700 hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium"
           >
-            Home
+            Vote
           </a>
           <a
-            href="/colors"
+            href="/vault"
             className="text-gray-700 hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium"
           >
-            Colors
+            Vault
           </a>
           <a
             href="/about"
             className="text-gray-700 hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium"
           >
-            About
+            Challenge
           </a>
         </div>
       </div>

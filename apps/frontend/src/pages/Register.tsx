@@ -11,21 +11,28 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 import { useCreateUser } from "@/hooks/useCreateUser";
 import { AUTH } from "@/services/auth";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 
 export default function RegisterPage() {
+  const { isLogged } = useAuth();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const navigate = useNavigate();
   const { toast } = useToast();
 
   const createUser = useCreateUser();
+
+  useEffect(() => {
+    if (isLogged) navigate("/me");
+  }, [isLogged, navigate]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

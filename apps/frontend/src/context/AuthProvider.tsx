@@ -26,17 +26,21 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const serverInfo = useServerGetInfo();
 
   useEffect(() => {
-    supabase.auth
-      .getSession()
-      .then(({ data: { session } }) => {
-        setSession(session ?? undefined);
-        if (session)
-          return getUserInfo({ access_token: session.access_token }).then(
+    const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setSession(session ?? undefined);
+      try {
+        if (session && !user)
+          await getUserInfo({ access_token: session.access_token }).then(
             (res) => setUser(res),
           );
-      })
-      .finally(() => setLoading(false));
-  }, []);
+      } catch (e) {
+        console.log("error", e);
+      } finally {
+        setLoading(false);
+      }
+    });
+    return () => data.subscription.unsubscribe();
+  }, [user]);
 
   const value = useMemo(
     () => ({
@@ -44,7 +48,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
       user,
       isLogged: !!session,
       isAdmin: session?.user?.role === "admin",
-      isServerReady: serverInfo.isSuccess,
+      isServerReady: serverInfo.isSuccess && !loading,
       loading,
     }),
     [loading, serverInfo.isSuccess, session, user],
