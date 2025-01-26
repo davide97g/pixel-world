@@ -4,7 +4,7 @@ import { sql } from "../../config/database";
 export async function getUserColors({ userId }: Readonly<{ userId: string }>) {
   try {
     const colors: IColor[] =
-      await sql`select id, name, team_color_id, public."COLORS".created_at from public."VAULT" join public."COLORS" on public."VAULT".color_id=public."COLORS".id where user_id=${userId}`;
+      await sql`select id, name, team_color_id, public."SHADES".created_at from public."VAULT" join public."SHADES" on public."VAULT".shade_id=public."SHADES".id where user_id=${userId}`;
 
     return { status: 200, data: colors };
   } catch (error) {
