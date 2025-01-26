@@ -1,5 +1,5 @@
-import { useGetTeams } from "@/api/useGetTeams";
-import { useGetVotes } from "@/api/useGetVotes";
+import { useGetTeams } from "@/api/teams/useGetTeams";
+import { useGetVotes } from "@/api/votes/useGetVotes";
 import { Button } from "@/components/ui/button";
 
 export default function Challenge() {

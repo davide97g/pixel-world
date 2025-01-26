@@ -16,9 +16,9 @@ createRoot(document.getElementById("root")!).render(
       <AuthProvider>
         <ServerReady>
           <RouterProvider router={router} />
-          <Toaster />
         </ServerReady>
       </AuthProvider>
+      <Toaster />
     </QueryClientProvider>
   </StrictMode>,
 );

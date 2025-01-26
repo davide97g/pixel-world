@@ -1,4 +1,4 @@
-import { useCreateUser } from "@/api/useCreateUser";
+import { useCreateUser } from "@/api/user/useCreateUser";
 import { Loader } from "@/components/custom/Loader";
 import { Button } from "@/components/ui/button";
 import {

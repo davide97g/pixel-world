@@ -1,12 +1,11 @@
-import { useAPI } from "@/hooks/useAPI";
+import { api } from "@/config/client";
+import { ITeamColor } from "@pixel-world/types";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetTeams = () => {
-  const { getTeams } = useAPI();
-
   return useQuery({
     queryKey: ["teams"],
-    queryFn: getTeams,
+    queryFn:  () => api.get("/teams").then(res=>res.data as ITeamColor[]),
     staleTime: Infinity,
   });
 };

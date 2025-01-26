@@ -1,5 +1,5 @@
-import { useAddVote } from "@/api/useAddVote";
-import { useGetUserColors } from "@/api/useGetUserColors";
+import { useGetUserColors } from "@/api/user/useGetUserColors";
+import { useAddVote } from "@/api/votes/useAddVote";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/context/AuthProvider";
