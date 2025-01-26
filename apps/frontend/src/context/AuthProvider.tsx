@@ -59,11 +59,9 @@ function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   }, [toast, user]);
 
   useEffect(() => {
-    console.log("session", session);
     api.interceptors.request.use((config) => {
       if (session)
         config.headers.Authorization = `Bearer ${session.access_token}`;
-      console.log("config", config.headers.Authorization);
       return config;
     });
   }, [session]);

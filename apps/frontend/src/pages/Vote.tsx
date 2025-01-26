@@ -19,7 +19,7 @@ export default function Vote() {
 
     return addVote
       .mutateAsync({
-        teamId: user?.teamColorId ?? "",
+        teamId: user?.team_color_id ?? "",
         colorId: selectedColorId ?? "",
       })
       .then((res) => {
@@ -82,21 +82,21 @@ export default function Vote() {
             <div className="flex flex-row justify-between items-center">
               <div className="flex items-center justify-between gap-2">
                 <h2 className="text-lg font-semibold">Your Color ID</h2>
-                <p className="text-gray-600">{user?.colorId}</p>
+                <p className="text-gray-600">{user?.color_hex_id}</p>
               </div>
               <div
                 className="w-12 h-12 rounded-full"
-                style={{ backgroundColor: user?.colorId }}
+                style={{ backgroundColor: user?.color_hex_id }}
               ></div>
             </div>
             <div className="flex flex-row justify-between items-center">
               <div className="flex items-center justify-between gap-2">
                 <h2 className="text-lg font-semibold">Your Team ID</h2>
-                <p className="text-gray-600">{user?.teamColorId}</p>
+                <p className="text-gray-600">{user?.team_color_id}</p>
               </div>
               <div
                 className="w-12 h-12 rounded-full"
-                style={{ backgroundColor: user?.teamColorId }}
+                style={{ backgroundColor: user?.team_color_id }}
               ></div>
             </div>
             <Button onClick={handleVote} disabled={loading} className="w-full">
