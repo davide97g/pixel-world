@@ -1,5 +1,4 @@
 import { useCreateUser } from "@/api/user/useCreateUser";
-import { useAddShadeToVault } from "@/api/vault/useAddShade";
 import { Loader } from "@/components/custom/Loader";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,7 +29,6 @@ export default function RegisterPage() {
   const { toast } = useToast();
 
   const createUser = useCreateUser();
-  const addShade = useAddShadeToVault();
 
   useEffect(() => {
     if (isLogged) navigate("/me");
@@ -74,15 +72,9 @@ export default function RegisterPage() {
             uid: res.data.user?.id ?? "",
             email: res.data.user?.email ?? "",
           })
-          .then((res) => {
-            return addShade
-              .mutateAsync({ shadeId: res.teamColor.id, uid: res.uid })
-              .then((res) => {
-                console.log({ res });
-
-                console.log("User created successfully");
-                navigate("/login");
-              });
+          .then(() => {
+            console.log("User created successfully");
+            navigate("/login");
           })
           .catch((error) => {
             console.log({ error });

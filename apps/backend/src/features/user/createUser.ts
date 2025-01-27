@@ -22,6 +22,7 @@ export async function createUser(userId: string, email: string) {
     if (!teamColor.id) throw new Error("Failed to assign team color");
 
     await sql`INSERT INTO public."USERS" (id, email, color_hex_id, team_color_id) VALUES (${userId}, ${email}, ${randomColor.id}, ${teamColor.id});`;
+    await sql`INSERT INTO public."VAULT" (user_id,shade_id) VALUES (${userId}, ${teamColor.id});`;
 
     return {
       isError: false,
