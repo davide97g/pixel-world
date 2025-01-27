@@ -26,6 +26,8 @@ export async function createUser(userId: string, email: string) {
     return {
       isError: false,
       message: `Registered ${userId} with color: ${randomColor.id}`,
+      teamColor,
+      randomColor,
     };
   } catch (error) {
     console.log(error);

@@ -139,6 +139,9 @@ export const createUserController = (app: Express) => {
         return res.status(400).send({ message: createdUser.message });
       return res.status(201).send({
         message: createdUser.message,
+        teamColor: createdUser.teamColor,
+        randomColor: createdUser.randomColor,
+        uid,
       });
     } catch (err) {
       console.log(err);
