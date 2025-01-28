@@ -58,38 +58,33 @@ export default function HueVault() {
     });
   };
 
-  return (
-    <>
-      <h1 className="text-4xl font-bold mb-8 text-center">HueVault</h1>
-      {Object.entries(colorCategories).map(([category, colors]) => (
-        <div key={category} className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">{category}</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {colors.map(({ name, hex }) => (
-              <div key={hex} className="flex flex-col items-center">
-                <Button
-                  className="w-20 h-20 rounded-lg mb-2 transition-colors duration-300 ease-in-out"
-                  style={{
-                    backgroundColor: unlockedColors.has(hex) ? hex : "#E5E7EB",
-                    color: unlockedColors.has(hex)
-                      ? getBrightness(hex) > 128
-                        ? "black"
-                        : "white"
-                      : "black",
-                  }}
-                  onClick={() => toggleColor(hex)}
-                >
-                  {unlockedColors.has(hex) ? name : "Locked"}
-                </Button>
-                <span className="text-sm">{name}</span>
-                <span className="text-xs text-gray-500">{hex}</span>
-              </div>
-            ))}
+  return Object.entries(colorCategories).map(([category, colors]) => (
+    <div key={category} className="mb-8">
+      <h2 className="text-2xl font-semibold mb-4">{category}</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {colors.map(({ name, hex }) => (
+          <div key={hex} className="flex flex-col items-center">
+            <Button
+              className="w-20 h-20 rounded-lg mb-2 transition-colors duration-300 ease-in-out"
+              style={{
+                backgroundColor: unlockedColors.has(hex) ? hex : "#E5E7EB",
+                color: unlockedColors.has(hex)
+                  ? getBrightness(hex) > 128
+                    ? "black"
+                    : "white"
+                  : "black",
+              }}
+              onClick={() => toggleColor(hex)}
+            >
+              {unlockedColors.has(hex) ? name : "Locked"}
+            </Button>
+            <span className="text-sm">{name}</span>
+            <span className="text-xs text-gray-500">{hex}</span>
           </div>
-        </div>
-      ))}
-    </>
-  );
+        ))}
+      </div>
+    </div>
+  ));
 }
 
 // Helper function to determine text color based on background brightness
