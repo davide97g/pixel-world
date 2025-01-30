@@ -63,29 +63,30 @@ export default function RegisterPage() {
         if (res.error) {
           setError(res.error.message);
           setIsLoading(false);
+          throw new Error(res.error.message);
         }
         return res;
       })
       .then((res) => {
-        return createUser
-          .mutateAsync({
-            uid: res.data.user?.id ?? "",
-            email: res.data.user?.email ?? "",
-          })
-          .then(() => {
-            console.log("User created successfully");
-            navigate("/login");
-          })
-          .catch((error) => {
-            console.log({ error });
-
-            toast({
-              title: error.message,
-            });
-            console.error(error);
+        console.log({ res });
+        if (res.data.user?.id && res.data.user?.email)
+          return createUser.mutateAsync({
+            uid: res.data.user.id,
+            email: res.data.user.email,
           });
+        throw new Error("Missing user data");
       })
-      .catch((error) => console.error(error))
+      .then(() => {
+        console.log("User created successfully");
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.error({ error });
+        toast({
+          title: error.message,
+          variant: "destructive",
+        });
+      })
       .finally(() => setIsLoading(false));
   };
 

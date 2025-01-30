@@ -105,12 +105,17 @@ export const createVaultController = (app: Express) => {
       const user = await getUserInfoFromToken(req);
       if (!user?.id) return res.status(401).send({ message: "Unauthorized" });
 
-      const { shadeId } = req.body;
+      const { uid, shadeId } = req.body;
+      if (!uid) return res.status(400).send({ message: "Invalid request" });
+
+      if (uid !== user.id)
+        return res.status(401).send({ message: "Unauthorized" });
+
       if (!shadeId)
         return res.status(400).send({ message: "Shade ID is required" });
 
       const result = await addUserShade({
-        userId: user.id,
+        userId: uid,
         shadeId,
       });
       return res.status(result.status).send(result.data);

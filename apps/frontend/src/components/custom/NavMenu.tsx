@@ -29,7 +29,9 @@ const NavMenu = () => {
             </div>
           </div>
           <div className="flex-1 flex items-center justify-center">
-            <span className="font-bold text-xl">Pixel World</span>
+            <a href="/me" className="font-bold text-xl">
+              Pixel World
+            </a>
           </div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
@@ -38,6 +40,12 @@ const NavMenu = () => {
                 className="text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Vote
+              </a>
+              <a
+                href="/shades"
+                className="text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Shades
               </a>
               <a
                 href="/vault"
@@ -66,13 +74,19 @@ const NavMenu = () => {
             Vote
           </a>
           <a
+            href="/shades"
+            className="text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium"
+          >
+            Shades
+          </a>
+          <a
             href="/vault"
             className="text-gray-700 hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium"
           >
             Vault
           </a>
           <a
-            href="/about"
+            href="/challenge"
             className="text-gray-700 hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium"
           >
             Challenge
