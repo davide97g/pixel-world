@@ -1,12 +1,15 @@
 import { useGetShades } from "@/api/shades/useGetShades";
 import { useAddShadeToVault } from "@/api/vault/useAddShade";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthProvider";
 import { useToast } from "@/hooks/useToast";
 import { useState } from "react";
 
 export default function HueVault() {
   const shades = useGetShades();
   const addShade = useAddShadeToVault();
+
+  const { user } = useAuth();
 
   const { toast } = useToast();
   const [selectedShadeId, setSelectedShadeId] = useState<string>();
@@ -15,6 +18,7 @@ export default function HueVault() {
     return addShade
       .mutateAsync({
         shadeId: selectedShadeId ?? "",
+        uid: user?.id ?? "",
       })
       .then(() => {
         setSelectedShadeId(undefined);
