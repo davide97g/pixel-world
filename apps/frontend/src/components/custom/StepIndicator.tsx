@@ -12,17 +12,17 @@ export function StepIndicator({
   onStepClick,
 }: Readonly<StepIndicatorProps>) {
   return (
-    <div className="flex items-center justify-end w-full py-4">
+    <div className="flex items-center py-4">
       {steps.map((step, index) => (
         <div key={step} className="flex items-center">
           <div
-            className={`flex flex-col items-center ${index <= currentStep ? "cursor-pointer" : "cursor-not-allowed"}`}
+            className={`flex flex-row items-center gap-2 ${index <= currentStep ? "cursor-pointer" : "cursor-not-allowed"}`}
             onClick={() =>
               index <= currentStep && onStepClick && onStepClick(index)
             }
           >
             <div
-              className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors duration-200 ${
+              className={`w-6 h-6 rounded-full flex items-center justify-center border-2 transition-colors duration-200 ${
                 index < currentStep
                   ? "border-primary bg-primary text-primary-foreground"
                   : index === currentStep
@@ -37,7 +37,7 @@ export function StepIndicator({
               )}
             </div>
             <span
-              className={`text-xs mt-2 font-medium ${index <= currentStep ? "text-primary" : "text-muted-foreground"}`}
+              className={`text-xs font-medium ${index <= currentStep ? "text-primary" : "text-muted-foreground"}`}
             >
               {step}
             </span>

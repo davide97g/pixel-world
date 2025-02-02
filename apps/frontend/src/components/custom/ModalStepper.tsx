@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { X } from "lucide-react";
 import { ReactNode } from "react";
 import { StepIndicator } from "./StepIndicator";
 
@@ -36,16 +37,23 @@ export function ModalStepper({
   onConfirm: () => void;
 }>) {
   return (
-    <Dialog open={open} onOpenChange={() => onClose()}>
+    <Dialog open={open}>
       <DialogContent
         className="sm:max-w-[925px]"
         style={{ backgroundColor: "white" }}
       >
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{steps[currentStep]}</DialogDescription>
+          <div className="flex flex-row items-center justify-between">
+            <div>
+              <DialogTitle>{title}</DialogTitle>
+              <DialogDescription>{steps[currentStep]}</DialogDescription>
+            </div>
+            <div className="flex flex-row items-center gap-4">
+              <StepIndicator steps={steps} currentStep={currentStep} />
+              <X style={{ cursor: "pointer" }} onClick={() => onClose()} />
+            </div>
+          </div>
         </DialogHeader>
-        <StepIndicator steps={steps} currentStep={currentStep} />
         {children}
         <DialogFooter className="flex justify-between w-full">
           <Button variant="outline" onClick={onClose}>

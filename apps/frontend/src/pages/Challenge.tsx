@@ -74,13 +74,21 @@ export default function Challenge() {
         <Button onClick={() => setIsOpen(true)}>Vote</Button>
         <ModalStepper
           open={isOpen}
-          onClose={() => setIsOpen(false)}
+          onClose={() => {
+            setSelectedShade("");
+            setSelectedTeam("");
+            setCurrentStep(0);
+            setIsOpen(false);
+          }}
           steps={["Select team", "Select Shades"]}
           handleNext={() => setCurrentStep((prev) => prev + 1)}
           handlePrevious={() => setCurrentStep((prev) => prev - 1)}
           currentStep={currentStep}
           title="Vote for a team"
-          isNextDisabled={!selectedTeam}
+          isNextDisabled={
+            (!selectedTeam && currentStep === 0) ||
+            (!selectedShade && currentStep === 1)
+          }
           onConfirm={() => {
             addVote
               .mutateAsync({
@@ -128,31 +136,38 @@ export default function Challenge() {
               <Loader />
             ) : (
               <div className="flex flex-row items-center justify-center gap-4 p-4">
-                {getVaultForTeam.data?.map((shade) => (
-                  <div
-                    key={shade.id}
-                    className="flex flex-col items-center gap-2"
-                    style={{
-                      cursor: "pointer",
-                      border:
-                        selectedShade === shade.id ? "2px solid black" : "none",
-                      padding: "1rem",
-                    }}
-                  >
+                {getVaultForTeam.data?.length &&
+                getVaultForTeam.data?.length >= 1 ? (
+                  getVaultForTeam.data?.map((shade) => (
                     <div
+                      key={shade.id}
+                      className="flex flex-col items-center gap-2"
                       style={{
-                        backgroundColor: shade.id,
-                        width: "100px",
-                        height: "100px",
-                        color: "white",
+                        cursor: "pointer",
+                        border:
+                          selectedShade === shade.id
+                            ? "2px solid black"
+                            : "none",
+                        padding: "1rem",
                       }}
-                      className="flex flex-row justify-center items-center"
-                      onClick={() => setSelectedShade(shade.id)}
                     >
-                      {shade.id}
+                      <div
+                        style={{
+                          backgroundColor: shade.id,
+                          width: "100px",
+                          height: "100px",
+                          color: "white",
+                        }}
+                        className="flex flex-row justify-center items-center"
+                        onClick={() => setSelectedShade(shade.id)}
+                      >
+                        {shade.id}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <div>You don't have shades for this team color</div>
+                )}
               </div>
             ))}
         </ModalStepper>
