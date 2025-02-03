@@ -101,7 +101,7 @@ export const createVaultController = (app: Express) => {
    *                         type: string
    */
   app.post(
-    "/vault/user/:userId/teamId",
+    "/vault/user/:userId/team-id",
     async (req: Request, res: Response) => {
       try {
         const user = await getUserInfoFromToken(req);
@@ -135,7 +135,7 @@ export const createVaultController = (app: Express) => {
     },
   );
 
-  app.get("/vault/allTeamId", async (req: Request, res: Response) => {
+  app.get("/vault/all-team-id", async (req: Request, res: Response) => {
     try {
       const user = await getUserInfoFromToken(req);
       if (!user?.id) return res.status(401).send({ message: "Unauthorized" });

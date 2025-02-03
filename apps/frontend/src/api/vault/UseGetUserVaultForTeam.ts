@@ -10,10 +10,10 @@ export const useGetUserVaultForTeam = ({
   teamId: string;
 }) =>
   useQuery({
-    queryKey: ["vault/teamId", userId, teamId],
+    queryKey: ["vault/team-id", userId, teamId],
     queryFn: () =>
       api
-        .post(`/vault/user/${userId}/teamId`, { teamId })
+        .post(`/vault/user/${userId}/team-id`, { teamId })
         .then((res) => res.data as IShade[]),
     enabled: !!userId && teamId !== "",
   });

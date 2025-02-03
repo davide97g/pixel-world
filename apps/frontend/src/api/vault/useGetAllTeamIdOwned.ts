@@ -6,6 +6,6 @@ export const useGetAllTeamIdOwned = () =>
     queryKey: ["allTeamId"],
     queryFn: () =>
       api
-        .get("/vault/allTeamId")
+        .get("/vault/all-team-id")
         .then((res) => res.data as { team_color_id: string }[]),
   });
