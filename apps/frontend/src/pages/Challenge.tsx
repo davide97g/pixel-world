@@ -1,5 +1,6 @@
 import { useAddVote } from "@/api";
 import { useGetTeams } from "@/api/teams/useGetTeams";
+import { useGetAllTeamIdOwned } from "@/api/vault/useGetAllTeamIdOwned";
 import { useGetUserVaultForTeam } from "@/api/vault/UseGetUserVaultForTeam";
 import { useGetVotes } from "@/api/votes/useGetVotes";
 import { Loader } from "@/components/custom/Loader";
@@ -19,6 +20,7 @@ export default function Challenge() {
   const { toast } = useToast();
 
   const getVotes = useGetVotes();
+  const getAllTeamIdOwned = useGetAllTeamIdOwned();
   const getTeams = useGetTeams();
   const getVaultForTeam = useGetUserVaultForTeam({
     userId: user?.id,
@@ -111,9 +113,22 @@ export default function Challenge() {
                 <div
                   key={team.id}
                   className="flex flex-col items-center gap-2"
-                  onClick={() => setSelectedTeam(team.id)}
+                  onClick={() => {
+                    if (
+                      !getAllTeamIdOwned.data?.find(
+                        (teamId) => team.id === teamId.team_color_id,
+                      )
+                    )
+                      return;
+
+                    setSelectedTeam(team.id);
+                  }}
                   style={{
-                    cursor: "pointer",
+                    cursor: getAllTeamIdOwned.data?.find(
+                      (teamId) => team.id === teamId.team_color_id,
+                    )
+                      ? "pointer"
+                      : "default",
                     border:
                       selectedTeam === team.id ? "2px solid black" : "none",
                     padding: "1rem",
@@ -124,6 +139,11 @@ export default function Challenge() {
                       backgroundColor: team.id,
                       width: "70px",
                       height: "70px",
+                      opacity: getAllTeamIdOwned.data?.find(
+                        (teamId) => team.id === teamId.team_color_id,
+                      )
+                        ? 1
+                        : 0.1,
                     }}
                   />
                   <div key={team.id}>{team.name}</div>
@@ -136,38 +156,31 @@ export default function Challenge() {
               <Loader />
             ) : (
               <div className="flex flex-row items-center justify-center gap-4 p-4">
-                {getVaultForTeam.data?.length &&
-                getVaultForTeam.data?.length >= 1 ? (
-                  getVaultForTeam.data?.map((shade) => (
+                {getVaultForTeam.data?.map((shade) => (
+                  <div
+                    key={shade.id}
+                    className="flex flex-col items-center gap-2"
+                    style={{
+                      cursor: "pointer",
+                      border:
+                        selectedShade === shade.id ? "2px solid black" : "none",
+                      padding: "1rem",
+                    }}
+                  >
                     <div
-                      key={shade.id}
-                      className="flex flex-col items-center gap-2"
                       style={{
-                        cursor: "pointer",
-                        border:
-                          selectedShade === shade.id
-                            ? "2px solid black"
-                            : "none",
-                        padding: "1rem",
+                        backgroundColor: shade.id,
+                        width: "100px",
+                        height: "100px",
+                        color: "white",
                       }}
+                      className="flex flex-row justify-center items-center"
+                      onClick={() => setSelectedShade(shade.id)}
                     >
-                      <div
-                        style={{
-                          backgroundColor: shade.id,
-                          width: "100px",
-                          height: "100px",
-                          color: "white",
-                        }}
-                        className="flex flex-row justify-center items-center"
-                        onClick={() => setSelectedShade(shade.id)}
-                      >
-                        {shade.id}
-                      </div>
+                      {shade.id}
                     </div>
-                  ))
-                ) : (
-                  <div>You don't have shades for this team color</div>
-                )}
+                  </div>
+                ))}
               </div>
             ))}
         </ModalStepper>

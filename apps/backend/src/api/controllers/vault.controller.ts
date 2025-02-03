@@ -1,5 +1,6 @@
 import { type Express, type Request, type Response } from "express";
 import { addUserShade } from "../../features/vault/addUserShade";
+import { getAllTeamShades } from "../../features/vault/getAllTeamShades";
 import { getUserColors } from "../../features/vault/getUserColors";
 import { getUserColorsForTeam } from "../../features/vault/getUserColorsForTeam";
 import { getUserInfoFromToken } from "../../middleware/utils";
@@ -133,6 +134,25 @@ export const createVaultController = (app: Express) => {
       }
     },
   );
+
+  app.get("/vault/allTeamId", async (req: Request, res: Response) => {
+    try {
+      const user = await getUserInfoFromToken(req);
+      if (!user?.id) return res.status(401).send({ message: "Unauthorized" });
+
+      const result = await getAllTeamShades({
+        userId: user.id,
+      });
+      if (result.status !== 200)
+        return res.status(result.status).send({ message: result.message });
+      return res.status(result.status).send(result.data);
+    } catch (err) {
+      console.log(err);
+      return res
+        .status(500)
+        .send({ message: "Failed to retrieve user's colors" });
+    }
+  });
 
   /**
    * @swagger
