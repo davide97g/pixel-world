@@ -5,7 +5,6 @@ import { createBrowserRouter } from "react-router";
 const Login = lazy(() => import("../pages/Login"));
 const Register = lazy(() => import("../pages/Register"));
 const PersonalArea = lazy(() => import("../pages/PersonalArea"));
-const Vote = lazy(() => import("../pages/Vote"));
 const Challenge = lazy(() => import("../pages/Challenge"));
 const Vault = lazy(() => import("../pages/HueVault"));
 const Shades = lazy(() => import("../pages/Shades"));
@@ -53,7 +52,7 @@ export const router = createBrowserRouter([
     element: (
       <Suspense>
         <AuthenticatedPage>
-          <Vote />
+          <PersonalArea />
         </AuthenticatedPage>
       </Suspense>
     ),
@@ -64,16 +63,6 @@ export const router = createBrowserRouter([
       <Suspense>
         <AuthenticatedPage>
           <Challenge />
-        </AuthenticatedPage>
-      </Suspense>
-    ),
-  },
-  {
-    path: "/me",
-    element: (
-      <Suspense>
-        <AuthenticatedPage>
-          <PersonalArea />
         </AuthenticatedPage>
       </Suspense>
     ),
