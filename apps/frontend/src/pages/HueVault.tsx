@@ -2,6 +2,7 @@ import { useGetUserVault } from "@/api/vault/useGetUserVault";
 import { Loader } from "@/components/custom/Loader";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthProvider";
+import { getBrightness } from "@/lib/utils";
 
 // Expanded color categories and their hex values
 // const colorCategories = {
@@ -70,12 +71,4 @@ export default function HueVault() {
       </div>
     </div>
   ));
-}
-
-// Helper function to determine text color based on background brightness
-function getBrightness(hex: string): number {
-  const r = Number.parseInt(hex.slice(1, 3), 16);
-  const g = Number.parseInt(hex.slice(3, 5), 16);
-  const b = Number.parseInt(hex.slice(5, 7), 16);
-  return (r * 299 + g * 587 + b * 114) / 1000;
 }

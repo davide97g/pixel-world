@@ -1,4 +1,5 @@
 import { AuthenticatedPage } from "@/components/custom/AuthenticatedPage";
+import Shop from "@/pages/Shop";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router";
 
@@ -63,6 +64,16 @@ export const router = createBrowserRouter([
       <Suspense>
         <AuthenticatedPage>
           <Challenge />
+        </AuthenticatedPage>
+      </Suspense>
+    ),
+  },
+  {
+    path: "/shop",
+    element: (
+      <Suspense>
+        <AuthenticatedPage>
+          <Shop />
         </AuthenticatedPage>
       </Suspense>
     ),

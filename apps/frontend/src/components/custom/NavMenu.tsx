@@ -59,6 +59,12 @@ const NavMenu = () => {
               >
                 Challenge
               </a>
+              <a
+                href="/shop"
+                className="text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Shop
+              </a>
             </div>
           </div>
         </div>
