@@ -23,7 +23,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLogged) navigate("/me");
+    if (isLogged) navigate("/");
   }, [isLogged, navigate]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -51,7 +51,7 @@ export default function LoginPage() {
           setIsLoading(false);
         } else {
           console.log("Logged in successfully");
-          navigate("/me");
+          navigate("/");
         }
       })
       .finally(() => setIsLoading(false));

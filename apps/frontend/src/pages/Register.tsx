@@ -31,7 +31,7 @@ export default function RegisterPage() {
   const createUser = useCreateUser();
 
   useEffect(() => {
-    if (isLogged) navigate("/me");
+    if (isLogged) navigate("/");
   }, [isLogged, navigate]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

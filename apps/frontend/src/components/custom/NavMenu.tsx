@@ -29,7 +29,7 @@ const NavMenu = () => {
             </div>
           </div>
           <div className="flex-1 flex items-center justify-center">
-            <a href="/me" className="font-bold text-xl">
+            <a href="/" className="font-bold text-xl">
               Pixel World
             </a>
           </div>
